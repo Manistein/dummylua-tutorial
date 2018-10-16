@@ -37,7 +37,7 @@ cd bin/
 
 #### 在Windows上编译与运行
 * 进入dummylua-tutorial/windows/project/
-* 使用VS2013或以上版本打开sln文件
+* 使用VS2013或以上版本打开工程
 * 自行编译和运行
 
 ## 测试平台
