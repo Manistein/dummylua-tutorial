@@ -22,7 +22,12 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include "../common/luamem.h"
 
 #define LUA_TRY(L, c, a) if (_setjmp((c)->b) == 0) { a } 
+
+#ifdef _WINDOWS_PLATFORM_ 
+#define LUA_THROW(c) longjmp((c)->b, 1) 
+#else 
 #define LUA_THROW(c) _longjmp((c)->b, 1) 
+#endif 
 
 struct lua_longjmp {
     struct lua_longjmp* previous;

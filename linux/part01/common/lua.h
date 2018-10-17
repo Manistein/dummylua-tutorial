@@ -29,8 +29,15 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include <stddef.h>
 #include <assert.h>
 
+static int POINTER_SIZE = sizeof(void*);
+
+#if POINTER_SIZE  >= 8
+#define LUA_INTEGER long
+#define LUA_NUMBER double
+#else
 #define LUA_INTEGER int 
 #define LUA_NUMBER float 
+#endif 
 
 // ERROR CODE 
 #define LUA_OK 0
