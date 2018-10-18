@@ -24,7 +24,7 @@
 git clone git@github.com:Manistein/dummylua-tutorial.git
 ```
 
-#### 在Linux上编译与运行
+#### 在Linux和Mac上编译与运行
 ```
 cd dummylua-tutorial/
 cd linux/
@@ -43,3 +43,4 @@ cd bin/
 ## 测试平台
 * Linux（Ubuntu）
 * Windows
+* Mac
