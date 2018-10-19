@@ -4,8 +4,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本系列将会为一些观点，理论附注上引证来源，并在Reference上展示，最后本人水平有限，如果有错误的地方，希望大家联系我加以指正。同时欢迎大家加入我创建的qq群185017593一起讨论技术。  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系列内容，将在我的博客上展示，欢迎大家关注我的[blog](https://manistein.github.io/blog/)。
 
-## 系列内容([地址](https://manistein.github.io/blog/))
-* Part1：虚拟机的基础：Lua基本数据结构、栈和基于栈的C函数调用的设计与实现
+## 系列内容([地址](https://manistein.github.io/blog/tags/build-a-lua-interpreter/))
+* Part1：[虚拟机的基础：Lua基本数据结构、栈和基于栈的C函数调用的设计与实现](https://manistein.github.io/blog/post/program/build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part1/)
 * Part2：lexer和parser简述
 * Part3：实现脚本中的赋值、基本算数运算和位运算
 * Part4：实现脚本中函数的定义与实现
