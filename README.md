@@ -5,17 +5,19 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系列内容，将在我的博客上展示，欢迎大家关注我的[blog](https://manistein.github.io/blog/)。
 
 ## 系列内容([地址](https://manistein.github.io/blog/tags/build-a-lua-interpreter/))
-* Part1：[虚拟机的基础：Lua基本数据结构、栈和基于栈的C函数调用的设计与实现](https://manistein.github.io/blog/post/program/build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part1/)
-* Part2：lexer和parser简述
-* Part3：实现脚本中的赋值、基本算数运算和位运算
-* Part4：实现脚本中函数的定义与实现
-* Part5：if语句的定义与实现
-* Part6：循环语句的定义与实现
-* Part7：break语句的定义与实现
-* Part8：可变参数
-* Part9：协程
-* Part10：热更新原理探索
-* Reference
+* Part1：[虚拟机的基础--Lua基本数据结构、栈和基于栈的C函数调用的设计与实现](https://manistein.github.io/blog/post/program/build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part1/)
+* Part2：[Garbage Collection基础架构](https://manistein.github.io/blog/post/program/build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part2/)
+* Part3：String设计与实现
+* Part4：Table设计与实现
+* Part5：lexer和parser简述
+* Part6：实现脚本中的赋值、基本算数运算和位运算
+* Part7：实现脚本中函数的定义与实现
+* Part8：if语句的定义与实现
+* Part9：循环语句的定义与实现
+* Part10：break语句的定义与实现
+* Part11：可变参数
+* Part12：协程
+* Part13：热更新原理探索
 
 ## 编译与运行
 
