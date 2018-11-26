@@ -30,7 +30,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #define black2gray(o) resetbit((o)->marked, BLACKBIT)
 #define sweepwholelist(L, list) sweeplist(L, list, MAX_LUMEM)
 
-struct GCObject* luaC_newobj(struct lua_State* L, int tt_, size_t size) {
+struct GCObject* luaC_newobj(struct lua_State* L, lu_byte tt_, size_t size) {
     struct global_State* g = G(L);
     struct GCObject* obj = (struct GCObject*)luaM_realloc(L, NULL, 0, size);
     obj->marked = luaC_white(g);
@@ -119,7 +119,7 @@ static void propagatemark(struct lua_State* L) {
 static void propagateall(struct lua_State* L) {
     struct global_State* g = G(L);
     while(g->gray) {
-        propagateall(L);
+        propagatemark(L);
     }
 }
 
