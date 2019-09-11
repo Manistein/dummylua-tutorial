@@ -1,0 +1,480 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Auxnode	common/luatable.c	/^typedef struct Auxnode {$/;"	s	file:
+Auxnode	common/luatable.c	/^} Auxnode;$/;"	t	typeref:struct:Auxnode	file:
+BLACKBIT	vm/luagc.h	37;"	d
+CLIB	makefile	/^CLIB = .\/clib$/;"	m
+COMMON	makefile	/^COMMON = .\/common$/;"	m
+CallInfo	common/luastate.h	/^struct CallInfo {$/;"	s
+CallS	clib/luaaux.c	/^typedef struct CallS {$/;"	s	file:
+CallS	clib/luaaux.c	/^} CallS;$/;"	t	typeref:struct:CallS	file:
+CommonHeader	common/luaobject.h	/^    CommonHeader;$/;"	m	struct:GCObject
+CommonHeader	common/luaobject.h	/^    CommonHeader;$/;"	m	struct:TString
+CommonHeader	common/luaobject.h	/^    CommonHeader;$/;"	m	struct:Table
+CommonHeader	common/luaobject.h	48;"	d
+CommonHeader	common/luastate.h	/^    CommonHeader;       \/\/ gc header, all gcobject should have the commonheader$/;"	m	struct:lua_State
+ELEMENTNUM	test/p2_test.c	6;"	d	file:
+ELEMENTNUM	test/p3_test.c	7;"	d	file:
+G	common/luastate.h	27;"	d
+GCMAXSWEEPGCO	vm/luagc.c	26;"	d	file:
+GCObject	common/luaobject.h	/^struct GCObject {$/;"	s
+GCPAUSE	common/luastate.h	32;"	d
+GCSTEPMUL	common/luastate.h	30;"	d
+GCSTEPSIZE	common/luastate.h	31;"	d
+GCSatomic	vm/luagc.h	29;"	d
+GCSinsideatomic	vm/luagc.h	30;"	d
+GCSpause	vm/luagc.h	27;"	d
+GCSpropagate	vm/luagc.h	28;"	d
+GCSsweepallgc	vm/luagc.h	31;"	d
+GCSsweepend	vm/luagc.h	32;"	d
+GCUnion	common/luastate.h	/^union GCUnion {$/;"	u
+GCdebt	common/luastate.h	/^    l_mem GCdebt;                   \/\/ GCdebt will be negative$/;"	m	struct:global_State
+GCestimate	common/luastate.h	/^    lu_mem GCestimate;              \/\/ after finish a gc cycle,it records total memory bytes (totalbytes + GCdebt)$/;"	m	struct:global_State
+GCmemtrav	common/luastate.h	/^    lu_mem GCmemtrav;               \/\/ per gc step traverse memory bytes $/;"	m	struct:global_State
+GCstepmul	common/luastate.h	/^    int GCstepmul;$/;"	m	struct:global_State
+LG	common/luastate.c	/^typedef struct LG {$/;"	s	file:
+LG	common/luastate.c	/^} LG;$/;"	t	typeref:struct:LG	file:
+LUA_ERRERR	common/lua.h	52;"	d
+LUA_ERRMEM	common/lua.h	53;"	d
+LUA_ERROR	common/lua.h	85;"	d
+LUA_ERRORSTACK	common/lua.h	80;"	d
+LUA_ERRRUN	common/lua.h	54;"	d
+LUA_EXTRASPACE	common/luastate.h	26;"	d
+LUA_EXTRASTACK	common/lua.h	78;"	d
+LUA_GCSTEPMUL	common/luaobject.h	49;"	d
+LUA_GLOBALTBLIDX	common/luastate.h	39;"	d
+LUA_INTEGER	common/lua.h	39;"	d
+LUA_INTEGER	common/lua.h	42;"	d
+LUA_LNGSTR	common/luaobject.h	44;"	d
+LUA_MAINTHREADIDX	common/luastate.h	38;"	d
+LUA_MAXCALLS	common/lua.h	82;"	d
+LUA_MAXSTACK	common/lua.h	79;"	d
+LUA_MINSTACK	common/lua.h	76;"	d
+LUA_MULRET	common/lua.h	81;"	d
+LUA_NUMBER	common/lua.h	40;"	d
+LUA_NUMBER	common/lua.h	43;"	d
+LUA_NUMFLT	common/luaobject.h	36;"	d
+LUA_NUMINT	common/luaobject.h	35;"	d
+LUA_NUMS	common/lua.h	72;"	d
+LUA_OK	common/lua.h	51;"	d
+LUA_SHRSTR	common/luaobject.h	45;"	d
+LUA_STACKSIZE	common/lua.h	77;"	d
+LUA_TBOOLEAN	common/lua.h	65;"	d
+LUA_TCCL	common/luaobject.h	41;"	d
+LUA_TDEADKEY	common/lua.h	73;"	d
+LUA_TFUNCTION	common/lua.h	69;"	d
+LUA_THROW	vm/luado.c	27;"	d	file:
+LUA_THROW	vm/luado.c	29;"	d	file:
+LUA_TLCF	common/luaobject.h	40;"	d
+LUA_TLCL	common/luaobject.h	39;"	d
+LUA_TLIGHTUSERDATA	common/lua.h	64;"	d
+LUA_TNIL	common/lua.h	67;"	d
+LUA_TNONE	common/lua.h	71;"	d
+LUA_TNUMBER	common/lua.h	63;"	d
+LUA_TRY	vm/luado.c	24;"	d	file:
+LUA_TSTRING	common/lua.h	66;"	d
+LUA_TTABLE	common/lua.h	68;"	d
+LUA_TTHREAD	common/lua.h	70;"	d
+LUA_UNSIGNED	common/lua.h	46;"	d
+LX	common/luastate.c	/^typedef struct LX {$/;"	s	file:
+LX	common/luastate.c	/^} LX;$/;"	t	typeref:struct:LX	file:
+MAXABITS	common/luatable.c	29;"	d	file:
+MAXASIZE	common/luatable.c	30;"	d	file:
+MAXSHORTSTR	common/luaobject.h	52;"	d
+MAX_LMEM	common/lua.h	94;"	d
+MAX_LUMEM	common/lua.h	93;"	d
+MEMERRMSG	common/luastring.c	26;"	d	file:
+MINSTRTABLESIZE	common/luastring.c	24;"	d	file:
+Node	common/luaobject.h	/^typedef struct Node {$/;"	s
+Node	common/luaobject.h	/^} Node;$/;"	t	typeref:struct:Node
+OBJECTS	makefile	/^OBJECTS = main.o luaaux.o luastate.o luaobject.o luamem.o luado.o luagc.o luastring.o luatable.o luavm.o p1_test.o p2_test.o p3_test.o$/;"	m
+OUTPUT	makefile	/^OUTPUT = .\/bin$/;"	m
+POINTER_SIZE	common/lua.h	/^static int POINTER_SIZE = sizeof(void*);$/;"	v
+Pfunc	vm/luado.h	/^typedef int (*Pfunc)(struct lua_State* L, void* ud);$/;"	t
+STEPMULADJ	common/luastate.h	29;"	d
+STRCACHE_M	common/luastate.h	35;"	d
+STRCACHE_N	common/luastate.h	36;"	d
+StkId	common/luastate.h	/^typedef TValue* StkId;$/;"	t
+TEST	makefile	/^TEST = .\/test$/;"	m
+TKey	common/luaobject.h	/^typedef union TKey {$/;"	u
+TKey	common/luaobject.h	/^} TKey;$/;"	t	typeref:union:TKey
+TString	common/luaobject.h	/^typedef struct TString {$/;"	s
+TString	common/luaobject.h	/^} TString;$/;"	t	typeref:struct:TString
+TValue	common/luaobject.h	/^} TValue;$/;"	t	typeref:struct:lua_TValue
+Table	common/luaobject.h	/^struct Table {$/;"	s
+VM	makefile	/^VM = .\/vm$/;"	m
+Value	common/luaobject.h	/^} Value;$/;"	t	typeref:union:lua_Value
+WHITE0BIT	vm/luagc.h	35;"	d
+WHITE1BIT	vm/luagc.h	36;"	d
+WHITEBITS	vm/luagc.h	50;"	d
+addbuff	common/luastate.c	70;"	d	file:
+allgc	common/luastate.h	/^    struct GCObject* allgc;         \/\/ gc root set$/;"	m	struct:global_State	typeref:struct:global_State::GCObject
+array	common/luaobject.h	/^    TValue* array;$/;"	m	struct:Table
+arrayindex	common/luatable.c	/^static unsigned int arrayindex(struct Table* t, const TValue* key) {$/;"	f	file:
+arraysize	common/luaobject.h	/^    unsigned int arraysize;$/;"	m	struct:Table
+atomic	vm/luagc.c	/^static void atomic(struct lua_State* L) {$/;"	f	file:
+aux_set_node_size	common/luatable.c	/^static int aux_set_node_size(struct lua_State* L, void* ud) {$/;"	f	file:
+b	common/luaobject.h	/^    int b;$/;"	m	union:lua_Value
+b	vm/luado.c	/^    jmp_buf b;$/;"	m	struct:lua_longjmp	file:
+base_ci	common/luastate.h	/^    struct CallInfo base_ci;$/;"	m	struct:lua_State	typeref:struct:lua_State::CallInfo
+bit2mask	vm/luagc.h	41;"	d
+bitmask	vm/luagc.h	40;"	d
+black2gray	vm/luagc.c	31;"	d	file:
+callstatus	common/luastate.h	/^    int callstatus;$/;"	m	struct:CallInfo
+cast	common/lua.h	56;"	d
+changewhite	vm/luagc.h	59;"	d
+check_exp	common/lua.h	48;"	d
+ci	common/luastate.h	/^    struct CallInfo* ci;$/;"	m	struct:lua_State	typeref:struct:lua_State::CallInfo
+compute_array_size	common/luatable.c	/^static int compute_array_size(struct Table* t, int* nums, int* array_used_num) {$/;"	f	file:
+createstrobj	common/luastring.c	/^static struct TString* createstrobj(struct lua_State* L, const char* str, int tag, unsigned int l, unsigned int hash) {$/;"	f	file:
+current_calls	test/p1_test.c	/^static int current_calls = 0;$/;"	v	file:
+currentwhite	common/luastate.h	/^    lu_byte currentwhite;$/;"	m	struct:global_State
+data	common/luaobject.h	/^    char data[0];$/;"	m	struct:TString
+dummynode	common/luaobject.h	54;"	d
+dummynode_	common/luaobject.h	/^const Node dummynode_;$/;"	v
+entersweep	vm/luagc.c	/^static void entersweep(struct lua_State* L) {$/;"	f	file:
+errorfunc	common/luastate.h	/^    ptrdiff_t errorfunc;$/;"	m	struct:lua_State
+errorjmp	common/luastate.h	/^    struct lua_longjmp* errorjmp;$/;"	m	struct:lua_State	typeref:struct:lua_State::lua_longjmp
+extra	common/luaobject.h	/^    unsigned short extra;       $/;"	m	struct:TString
+extra_	common/luastate.c	/^    lu_byte extra_[LUA_EXTRASPACE];$/;"	m	struct:LX	file:
+f	common/luaobject.h	/^    lua_CFunction f;$/;"	m	union:lua_Value
+f_call	clib/luaaux.c	/^static int f_call(lua_State* L, void* ud) {$/;"	f	file:
+findindex	common/luatable.c	/^static unsigned int findindex(struct lua_State* L, struct Table* t, const TValue* key) {$/;"	f	file:
+fixgc	common/luastate.h	/^    struct GCObject* fixgc;         \/\/ objects can not collect by gc$/;"	m	struct:global_State	typeref:struct:global_State::GCObject
+frealloc	common/luastate.h	/^    lua_Alloc frealloc;$/;"	m	struct:global_State
+free_stack	common/luastate.c	/^static void free_stack(struct lua_State* L) {$/;"	f	file:
+freeobj	vm/luagc.c	/^static lu_mem freeobj(struct lua_State* L, struct GCObject* gco) {$/;"	f	file:
+fromstate	common/luastate.c	130;"	d	file:
+func	clib/luaaux.c	/^    StkId func;$/;"	m	struct:CallS	file:
+func	common/luastate.h	/^    StkId func;$/;"	m	struct:CallInfo
+g	common/luastate.c	/^    global_State g;$/;"	m	struct:LG	file:
+g_lngstr	test/p3_test.c	/^const char* g_lngstr = "This is a long string. This is a long string. This is a long string. This is a long string.";$/;"	v
+g_shrstr	test/p3_test.c	/^const char* g_shrstr = "This is a short string";$/;"	v
+gc	common/luaobject.h	/^    struct GCObject* gc;$/;"	m	union:lua_Value	typeref:struct:lua_Value::GCObject
+gc	common/luastate.h	/^    struct GCObject gc;$/;"	m	union:GCUnion	typeref:struct:GCUnion::GCObject
+gclist	common/luaobject.h	/^    struct GCObject* gclist;$/;"	m	struct:Table	typeref:struct:Table::GCObject
+gclist	common/luastate.h	/^    struct GCObject* gclist;$/;"	m	struct:lua_State	typeref:struct:lua_State::GCObject
+gco2tbl	vm/luagc.h	64;"	d
+gco2th	vm/luagc.h	62;"	d
+gco2ts	vm/luagc.h	63;"	d
+gcstate	common/luastate.h	/^    lu_byte gcstate;$/;"	m	struct:global_State
+gcvalue	vm/luagc.h	65;"	d
+get_debt	vm/luagc.c	/^static l_mem get_debt(struct lua_State* L) {$/;"	f	file:
+getgeneric	common/luatable.c	/^static const TValue* getgeneric(struct lua_State* L, struct Table* t, const TValue* key) {$/;"	f	file:
+getkey	common/luatable.h	27;"	d
+getlastfree	common/luatable.c	/^static Node* getlastfree(struct Table* t) {$/;"	f	file:
+getnode	common/luatable.h	30;"	d
+getstr	common/luastring.h	28;"	d
+gettotalbytes	vm/luagc.c	28;"	d	file:
+getval	common/luatable.h	29;"	d
+getwkey	common/luatable.h	28;"	d
+global_State	common/luastate.h	/^typedef struct global_State {$/;"	s
+global_State	common/luastate.h	/^} global_State;$/;"	t	typeref:struct:global_State
+gray	common/luastate.h	/^    struct GCObject* gray;$/;"	m	struct:global_State	typeref:struct:global_State::GCObject
+gray2black	vm/luagc.c	30;"	d	file:
+grayagain	common/luastate.h	/^    struct GCObject* grayagain;$/;"	m	struct:global_State	typeref:struct:global_State::GCObject
+hash	common/luaobject.h	/^    unsigned int hash;          \/\/ string hash value$/;"	m	struct:TString
+hash	common/luastate.h	/^    struct TString** hash;$/;"	m	struct:stringtable	typeref:struct:stringtable::TString
+hashboolean	common/luatable.h	34;"	d
+hashint	common/luatable.h	32;"	d
+hashpointer	common/luatable.h	35;"	d
+hashstr	common/luatable.h	33;"	d
+hnext	common/luaobject.h	/^        struct TString* hnext; \/\/ only for short string, if two different string encounter hash collision, then chain them$/;"	m	union:TString::__anon1	typeref:struct:TString::__anon1::TString
+i	common/luaobject.h	/^    lua_Integer i;$/;"	m	union:lua_Value
+increase_top	common/luastate.c	/^void increase_top(struct lua_State* L) {$/;"	f
+index2addr	common/luastate.c	/^TValue* index2addr(struct lua_State* L, int idx) {$/;"	f
+init_registry	common/luastate.c	/^static void init_registry(struct lua_State* L) {$/;"	f	file:
+internalstr	common/luastring.c	/^static struct TString* internalstr(struct lua_State* L, const char* str, unsigned int l) {$/;"	f	file:
+isblack	vm/luagc.h	56;"	d
+iscollectable	vm/luagc.h	67;"	d
+isdead	vm/luagc.h	58;"	d
+isdeadm	vm/luagc.h	57;"	d
+isdummy	common/luatable.h	26;"	d
+isgray	vm/luagc.h	55;"	d
+iswhite	vm/luagc.h	54;"	d
+key	common/luaobject.h	/^    TKey key;$/;"	m	struct:Node
+l	common/luastate.c	/^    LX l;$/;"	m	struct:LG	file:
+l	common/luastate.c	/^    lua_State l;$/;"	m	struct:LX	file:
+l_G	common/luastate.h	/^    struct global_State* l_G;$/;"	m	struct:lua_State	typeref:struct:lua_State::global_State
+l_alloc	clib/luaaux.c	/^static void* l_alloc(void* ud, void* ptr, size_t osize, size_t nsize) {$/;"	f	file:
+l_hashfloat	common/luatable.c	/^static int l_hashfloat(lua_Number n) {$/;"	f	file:
+l_mem	common/lua.h	/^typedef ptrdiff_t   l_mem;$/;"	t
+l_registry	common/luastate.h	/^    TValue l_registry;$/;"	m	struct:global_State
+l_setbit	vm/luagc.h	47;"	d
+lastfree	common/luaobject.h	/^    Node* lastfree;$/;"	m	struct:Table
+linkgclist	vm/luagc.h	72;"	d
+lmod	common/luaobject.h	56;"	d
+lnglen	common/luaobject.h	/^        size_t lnglen;$/;"	m	union:TString::__anon1
+lsizenode	common/luaobject.h	/^    unsigned int lsizenode; \/\/ real hash size is 2 ^ lsizenode$/;"	m	struct:Table
+lu_byte	common/luaobject.h	/^typedef unsigned char lu_byte;$/;"	t
+lu_mem	common/lua.h	/^typedef size_t      lu_mem;$/;"	t
+luaC_barrierback	vm/luagc.h	78;"	d
+luaC_barrierback_	vm/luagc.c	/^void luaC_barrierback_(struct lua_State* L, struct Table* t, const TValue* o) {$/;"	f
+luaC_checkgc	vm/luagc.h	76;"	d
+luaC_condgc	vm/luagc.h	75;"	d
+luaC_fix	vm/luagc.c	/^void luaC_fix(struct lua_State* L, struct GCObject* o) {$/;"	f
+luaC_freeallobjects	vm/luagc.c	/^void luaC_freeallobjects(struct lua_State* L) {$/;"	f
+luaC_newobj	vm/luagc.c	/^struct GCObject* luaC_newobj(struct lua_State* L, lu_byte tt_, size_t size) {$/;"	f
+luaC_step	vm/luagc.c	/^void luaC_step(struct lua_State*L) {$/;"	f
+luaC_white	vm/luagc.h	51;"	d
+luaD_call	vm/luado.c	/^int luaD_call(struct lua_State* L, StkId func, int nresult) {$/;"	f
+luaD_checkstack	vm/luado.c	/^void luaD_checkstack(struct lua_State* L, int need) {$/;"	f
+luaD_growstack	vm/luado.c	/^void luaD_growstack(struct lua_State* L, int size) {$/;"	f
+luaD_pcall	vm/luado.c	/^int luaD_pcall(struct lua_State* L, Pfunc f, void* ud, ptrdiff_t oldtop, ptrdiff_t ef) {$/;"	f
+luaD_poscall	vm/luado.c	/^int luaD_poscall(struct lua_State* L, StkId first_result, int nresult) {$/;"	f
+luaD_precall	vm/luado.c	/^int luaD_precall(struct lua_State* L, StkId func, int nresult) {$/;"	f
+luaD_rawrunprotected	vm/luado.c	/^int luaD_rawrunprotected(struct lua_State* L, Pfunc f, void* ud) {$/;"	f
+luaD_throw	vm/luado.c	/^void luaD_throw(struct lua_State* L, int error) {$/;"	f
+luaH_free	common/luatable.c	/^void luaH_free(struct lua_State* L, struct Table* t) {$/;"	f
+luaH_get	common/luatable.c	/^const TValue* luaH_get(struct lua_State* L, struct Table* t, const TValue* key) {$/;"	f
+luaH_getint	common/luatable.c	/^const TValue* luaH_getint(struct lua_State* L, struct Table* t, int key) {$/;"	f
+luaH_getn	common/luatable.c	/^int luaH_getn(struct lua_State* L, struct Table* t) {$/;"	f
+luaH_getshrstr	common/luatable.c	/^const TValue* luaH_getshrstr(struct lua_State* L, struct Table* t, struct TString* key) {$/;"	f
+luaH_getstr	common/luatable.c	/^const TValue* luaH_getstr(struct lua_State* L, struct Table* t, struct TString* key) {$/;"	f
+luaH_new	common/luatable.c	/^struct Table* luaH_new(struct lua_State* L) {$/;"	f
+luaH_newkey	common/luatable.c	/^TValue* luaH_newkey(struct lua_State* L, struct Table* t, const TValue* key) {$/;"	f
+luaH_next	common/luatable.c	/^int luaH_next(struct lua_State* L, struct Table* t, TValue* key) {$/;"	f
+luaH_resize	common/luatable.c	/^int luaH_resize(struct lua_State* L, struct Table* t, unsigned int asize, unsigned int hsize) {$/;"	f
+luaH_set	common/luatable.c	/^TValue* luaH_set(struct lua_State* L, struct Table* t, const TValue* key) {$/;"	f
+luaH_setint	common/luatable.c	/^int luaH_setint(struct lua_State* L, struct Table* t, int key, const TValue* value) {$/;"	f
+luaL_checkinteger	clib/luaaux.c	/^bool luaL_checkinteger(struct lua_State* L, int idx) {$/;"	f
+luaL_close	clib/luaaux.c	/^void luaL_close(struct lua_State* L) {$/;"	f
+luaL_createtable	clib/luaaux.c	/^int luaL_createtable(struct lua_State* L) {$/;"	f
+luaL_getglobal	clib/luaaux.c	/^int luaL_getglobal(struct lua_State* L) {$/;"	f
+luaL_gettable	clib/luaaux.c	/^int luaL_gettable(struct lua_State* L, int idx) {$/;"	f
+luaL_index2addr	clib/luaaux.c	/^TValue* luaL_index2addr(struct lua_State* L, int idx) {$/;"	f
+luaL_isnil	clib/luaaux.c	/^int luaL_isnil(struct lua_State* L, int idx) {$/;"	f
+luaL_newstate	clib/luaaux.c	/^struct lua_State* luaL_newstate() {$/;"	f
+luaL_pcall	clib/luaaux.c	/^int luaL_pcall(struct lua_State* L, int narg, int nresult) {$/;"	f
+luaL_pop	clib/luaaux.c	/^void luaL_pop(struct lua_State* L) {$/;"	f
+luaL_pushboolean	clib/luaaux.c	/^void luaL_pushboolean(struct lua_State* L, bool boolean) {$/;"	f
+luaL_pushcfunction	clib/luaaux.c	/^void luaL_pushcfunction(struct lua_State* L, lua_CFunction f) {$/;"	f
+luaL_pushinteger	clib/luaaux.c	/^void luaL_pushinteger(struct lua_State* L, int integer) {$/;"	f
+luaL_pushlightuserdata	clib/luaaux.c	/^void luaL_pushlightuserdata(struct lua_State* L, void* userdata) {$/;"	f
+luaL_pushnil	clib/luaaux.c	/^void luaL_pushnil(struct lua_State* L) {$/;"	f
+luaL_pushnumber	clib/luaaux.c	/^void luaL_pushnumber(struct lua_State* L, float number) {$/;"	f
+luaL_pushstring	clib/luaaux.c	/^void luaL_pushstring(struct lua_State* L, const char* str) {$/;"	f
+luaL_settable	clib/luaaux.c	/^int luaL_settable(struct lua_State* L, int idx) {$/;"	f
+luaL_stacksize	clib/luaaux.c	/^int luaL_stacksize(struct lua_State* L) {$/;"	f
+luaL_toboolean	clib/luaaux.c	/^bool luaL_toboolean(struct lua_State* L, int idx) {$/;"	f
+luaL_tointeger	clib/luaaux.c	/^lua_Integer luaL_tointeger(struct lua_State* L, int idx) {$/;"	f
+luaL_tonumber	clib/luaaux.c	/^lua_Number luaL_tonumber(struct lua_State* L, int idx) {$/;"	f
+luaL_tostring	clib/luaaux.c	/^char* luaL_tostring(struct lua_State* L, int idx) {$/;"	f
+luaL_touserdata	clib/luaaux.c	/^void* luaL_touserdata(struct lua_State* L, int idx) {$/;"	f
+luaM_free	common/luamem.h	26;"	d
+luaM_newvector	common/luamem.h	28;"	d
+luaM_realloc	common/luamem.c	/^void* luaM_realloc(struct lua_State* L, void* ptr, size_t osize, size_t nsize) {$/;"	f
+luaM_reallocvector	common/luamem.h	27;"	d
+luaO_ceillog2	common/luaobject.c	/^int luaO_ceillog2(int value) {$/;"	f
+luaO_nilobject	common/luaobject.h	51;"	d
+luaO_nilobject_	common/luaobject.h	/^const TValue luaO_nilobject_;$/;"	v
+luaS_clearcache	common/luastring.c	/^void luaS_clearcache(struct lua_State* L) {$/;"	f
+luaS_createlongstr	common/luastring.c	/^struct TString* luaS_createlongstr(struct lua_State* L, const char* str, size_t l) {$/;"	f
+luaS_eqlngstr	common/luastring.c	/^int luaS_eqlngstr(struct lua_State* L, struct TString* a, struct TString* b) {$/;"	f
+luaS_eqshrstr	common/luastring.c	/^int luaS_eqshrstr(struct lua_State* L, struct TString* a, struct TString* b) {$/;"	f
+luaS_hash	common/luastring.c	/^unsigned int luaS_hash(struct lua_State* L, const char* str, unsigned int l, unsigned int h) {$/;"	f
+luaS_hashlongstr	common/luastring.c	/^unsigned int luaS_hashlongstr(struct lua_State* L, struct TString* ts) {$/;"	f
+luaS_init	common/luastring.c	/^void luaS_init(struct lua_State* L) {$/;"	f
+luaS_new	common/luastring.c	/^struct TString* luaS_new(struct lua_State* L, const char* str, unsigned int l) {$/;"	f
+luaS_newlstr	common/luastring.c	/^struct TString* luaS_newlstr(struct lua_State* L, const char* str, unsigned int l) {$/;"	f
+luaS_remove	common/luastring.c	/^void luaS_remove(struct lua_State* L, struct TString* ts) {$/;"	f
+luaS_resize	common/luastring.c	/^int luaS_resize(struct lua_State* L, unsigned int nsize) {$/;"	f
+luaV_eqobject	vm/luavm.c	/^int luaV_eqobject(struct lua_State* L, const TValue* a, const TValue* b) {$/;"	f
+luaV_fastget	vm/luavm.h	27;"	d
+luaV_fastset	vm/luavm.h	35;"	d
+luaV_finishget	vm/luavm.c	/^void luaV_finishget(struct lua_State* L, struct Table* t, StkId val, const TValue* slot) {$/;"	f
+luaV_finishset	vm/luavm.c	/^void luaV_finishset(struct lua_State* L, struct Table* t, const TValue* key, StkId val, const TValue* slot) {$/;"	f
+luaV_gettable	vm/luavm.h	31;"	d
+luaV_settable	vm/luavm.h	42;"	d
+lua_Alloc	common/luaobject.h	/^typedef void* (*lua_Alloc)(void* ud, void* ptr, size_t osize, size_t nsize);$/;"	t
+lua_CFunction	common/luaobject.h	/^typedef int (*lua_CFunction)(lua_State* L);$/;"	t
+lua_Integer	common/luaobject.h	/^typedef LUA_INTEGER lua_Integer;$/;"	t
+lua_Number	common/luaobject.h	/^typedef LUA_NUMBER lua_Number;$/;"	t
+lua_State	common/luaobject.h	/^typedef struct lua_State lua_State;$/;"	t	typeref:struct:lua_State
+lua_State	common/luastate.h	/^typedef struct lua_State {$/;"	s
+lua_State	common/luastate.h	/^} lua_State;$/;"	t	typeref:struct:lua_State
+lua_TValue	common/luaobject.h	/^typedef struct lua_TValue {$/;"	s
+lua_Unsigned	common/lua.h	/^typedef LUA_UNSIGNED lua_Unsigned;$/;"	t
+lua_Value	common/luaobject.h	/^typedef union lua_Value {$/;"	u
+lua_assert	common/lua.h	47;"	d
+lua_close	common/luastate.c	/^void lua_close(struct lua_State* L) {$/;"	f
+lua_createtable	common/luastate.c	/^int lua_createtable(struct lua_State* L) {$/;"	f
+lua_getglobal	common/luastate.c	/^int lua_getglobal(struct lua_State* L) {$/;"	f
+lua_gettable	common/luastate.c	/^int lua_gettable(struct lua_State* L, int idx) {$/;"	f
+lua_gettop	common/luastate.c	/^int lua_gettop(struct lua_State* L) {$/;"	f
+lua_h	common/lua.h	22;"	d
+lua_isnil	common/luastate.c	/^int lua_isnil(struct lua_State* L, int idx) {$/;"	f
+lua_longjmp	vm/luado.c	/^struct lua_longjmp {$/;"	s	file:
+lua_newstate	common/luastate.c	/^struct lua_State* lua_newstate(lua_Alloc alloc, void* ud) {$/;"	f
+lua_numbertointeger	common/luaobject.h	60;"	d
+lua_numeq	common/luaobject.h	58;"	d
+lua_numisnan	common/luaobject.h	59;"	d
+lua_pop	common/luastate.c	/^void lua_pop(struct lua_State* L) {$/;"	f
+lua_pushboolean	common/luastate.c	/^void lua_pushboolean(struct lua_State* L, bool b) {$/;"	f
+lua_pushcfunction	common/luastate.c	/^void lua_pushcfunction(struct lua_State* L, lua_CFunction f) {$/;"	f
+lua_pushinteger	common/luastate.c	/^void lua_pushinteger(struct lua_State* L, int integer) {$/;"	f
+lua_pushlightuserdata	common/luastate.c	/^void lua_pushlightuserdata(struct lua_State* L, void* p) {$/;"	f
+lua_pushnil	common/luastate.c	/^void lua_pushnil(struct lua_State* L) {$/;"	f
+lua_pushnumber	common/luastate.c	/^void lua_pushnumber(struct lua_State* L, float number) {$/;"	f
+lua_pushstring	common/luastate.c	/^void lua_pushstring(struct lua_State* L, const char* str) {$/;"	f
+lua_settable	common/luastate.c	/^int lua_settable(struct lua_State* L, int idx) {$/;"	f
+lua_settop	common/luastate.c	/^void lua_settop(struct lua_State* L, int idx) {$/;"	f
+lua_toboolean	common/luastate.c	/^bool lua_toboolean(struct lua_State* L, int idx) {$/;"	f
+lua_tointegerx	common/luastate.c	/^lua_Integer lua_tointegerx(struct lua_State* L, int idx, int* isnum) {$/;"	f
+lua_tonumberx	common/luastate.c	/^lua_Number lua_tonumberx(struct lua_State* L, int idx, int* isnum) {$/;"	f
+lua_tostring	common/luastate.c	/^char* lua_tostring(struct lua_State* L, int idx) {$/;"	f
+luaaux_h	clib/luaaux.h	22;"	d
+luado_h	vm/luado.h	22;"	d
+luagc_h	vm/luagc.h	22;"	d
+luamem_h	common/luamem.h	22;"	d
+luaobject_h	common/luaobject.h	22;"	d
+luastate_h	common/luastate.h	22;"	d
+luastring_h	common/luastring.h	22;"	d
+luatable_h	common/luatable.h	22;"	d
+luavm_h	vm/luavm.h	22;"	d
+main	main.c	/^int main(int argc, char** argv) {$/;"	f
+mainposition	common/luatable.c	/^static Node* mainposition(struct lua_State* L, struct Table* t, const TValue* key) {$/;"	f	file:
+mainthread	common/luastate.h	/^    struct lua_State* mainthread;$/;"	m	struct:global_State	typeref:struct:global_State::lua_State
+makeseed	common/luastate.c	/^static unsigned int makeseed(struct lua_State* L) {$/;"	f	file:
+markobject	vm/luagc.h	70;"	d
+markvalue	vm/luagc.h	71;"	d
+memerrmsg	common/luastate.h	/^    TString* memerrmsg;$/;"	m	struct:global_State
+n	common/luaobject.h	/^    lua_Number n;$/;"	m	union:lua_Value
+ncalls	common/luastate.h	/^    int ncalls;$/;"	m	struct:lua_State
+nci	common/luastate.h	/^    int nci;$/;"	m	struct:lua_State
+next	common/luaobject.h	/^        int next;$/;"	m	struct:TKey::__anon2
+next	common/luastate.h	/^    struct CallInfo* next;$/;"	m	struct:CallInfo	typeref:struct:CallInfo::CallInfo
+next_ci	vm/luado.c	/^static struct CallInfo* next_ci(struct lua_State* L, StkId func, int nresult) {$/;"	f	file:
+nk	common/luaobject.h	/^    } nk;$/;"	m	union:TKey	typeref:struct:TKey::__anon2
+node	common/luaobject.h	/^    Node* node;$/;"	m	struct:Table
+novariant	common/lua.h	60;"	d
+nresult	clib/luaaux.c	/^    int nresult;$/;"	m	struct:CallS	file:
+nresult	common/luastate.h	/^    int nresult;$/;"	m	struct:CallInfo
+nret	test/p1_test.c	/^static int nret = 5;$/;"	v	file:
+ntest_result6_ret	test/p1_test.c	/^static int ntest_result6_ret = 5;$/;"	v	file:
+numsarray	common/luatable.c	/^static int numsarray(struct Table* t, int* nums) {$/;"	f	file:
+numshash	common/luatable.c	/^static int numshash(struct Table* t, int* nums) {$/;"	f	file:
+nuse	common/luastate.h	/^    unsigned int nuse;$/;"	m	struct:stringtable
+obj2gco	vm/luagc.h	61;"	d
+otherwhite	vm/luagc.h	52;"	d
+p	common/luaobject.h	/^    void* p;$/;"	m	union:lua_Value
+p1_test_h	test/p1_test.h	2;"	d
+p1_test_main	test/p1_test.c	/^void p1_test_main() {$/;"	f
+p1_test_nestcall01	test/p1_test.c	/^void p1_test_nestcall01() { \/\/ call count < LUA_MAXCALLS$/;"	f
+p1_test_nestcall02	test/p1_test.c	/^void p1_test_nestcall02() { \/\/ call count >= LUA_MAXCALLS$/;"	f
+p1_test_result01	test/p1_test.c	/^void p1_test_result01() { \/\/ nwant = 0; and nresult = 0;$/;"	f
+p1_test_result02	test/p1_test.c	/^void p1_test_result02() { \/\/ nwant = 0; and nresult = 1;$/;"	f
+p1_test_result03	test/p1_test.c	/^void p1_test_result03() { \/\/ nwant = 0; and nresult > 1;$/;"	f
+p1_test_result04	test/p1_test.c	/^void p1_test_result04() { \/\/ nwant = 1; and nresult = 0;$/;"	f
+p1_test_result05	test/p1_test.c	/^void p1_test_result05() { \/\/ nwant = 1; and nresult = 1;$/;"	f
+p1_test_result06	test/p1_test.c	/^void p1_test_result06() { \/\/ nwant = 1; and nresult > 1;$/;"	f
+p1_test_result07	test/p1_test.c	/^void p1_test_result07() { \/\/ nwant > 1; and nresult = 0;$/;"	f
+p1_test_result08	test/p1_test.c	/^void p1_test_result08() { \/\/ nwant > 1; and nresult > 0;$/;"	f
+p1_test_result09	test/p1_test.c	/^void p1_test_result09() { \/\/ nwant = -1; and nresult = 0;$/;"	f
+p1_test_result10	test/p1_test.c	/^void p1_test_result10() { \/\/ nwant = -1; and nresult > 0;$/;"	f
+p2_test_h	test/p2_test.h	2;"	d
+p2_test_main	test/p2_test.c	/^void p2_test_main() {$/;"	f
+p3_test_h	test/p3_test.h	2;"	d
+p3_test_main	test/p3_test.c	/^void p3_test_main() {$/;"	f
+p4_test_h	test/p4_test.h	2;"	d
+p4_test_main	test/p4_test.c	/^void p4_test_main() {$/;"	f
+panic	common/luastate.h	/^    lua_CFunction panic;$/;"	m	struct:global_State
+point2uint	common/lua.h	59;"	d
+previous	common/luastate.h	/^    struct CallInfo* previous;$/;"	m	struct:CallInfo	typeref:struct:CallInfo::CallInfo
+previous	common/luastate.h	/^    struct lua_State* previous;$/;"	m	struct:lua_State	typeref:struct:lua_State::lua_State
+previous	vm/luado.c	/^    struct lua_longjmp* previous;$/;"	m	struct:lua_longjmp	typeref:struct:lua_longjmp::lua_longjmp	file:
+print	test/p3_test.c	/^int print(struct lua_State* L) {$/;"	f
+propagateall	vm/luagc.c	/^static void propagateall(struct lua_State* L) {$/;"	f	file:
+propagatemark	vm/luagc.c	/^static void propagatemark(struct lua_State* L) {$/;"	f	file:
+reallymarkobject	vm/luagc.c	/^void reallymarkobject(struct lua_State* L, struct GCObject* gco) {$/;"	f
+rehash	common/luatable.c	/^static void rehash(struct lua_State* L, struct Table* t, const TValue* key) {$/;"	f	file:
+reset_unuse_stack	vm/luado.c	/^static void reset_unuse_stack(struct lua_State* L, ptrdiff_t old_top) {$/;"	f	file:
+resetbit	vm/luagc.h	46;"	d
+resetbits	vm/luagc.h	43;"	d
+restart_collection	vm/luagc.c	/^static void restart_collection(struct lua_State* L) {$/;"	f	file:
+restorestack	common/lua.h	58;"	d
+savestack	common/lua.h	57;"	d
+seed	common/luastate.h	/^    unsigned int seed;              \/\/ hash seed, just for string hash$/;"	m	struct:global_State
+setbits	vm/luagc.h	44;"	d
+setbvalue	common/luastate.c	/^void setbvalue(StkId target, bool b) {$/;"	f
+setdebt	vm/luagc.c	/^static void setdebt(struct lua_State* L, l_mem debt) {$/;"	f	file:
+seterrobj	vm/luado.c	/^void seterrobj(struct lua_State* L, int error) {$/;"	f
+setfltvalue	common/luastate.c	/^void setfltvalue(StkId target, float number) {$/;"	f
+setfvalue	common/luastate.c	/^void setfvalue(StkId target, lua_CFunction f) {$/;"	f
+setgco	common/luastate.c	/^void setgco(StkId target, struct GCObject* gco) {$/;"	f
+setivalue	common/luastate.c	/^void setivalue(StkId target, int integer) {$/;"	f
+setnilvalue	common/luastate.c	/^void setnilvalue(StkId target) {$/;"	f
+setnodesize	common/luatable.c	/^static void setnodesize(struct lua_State* L, struct Table* t, int size) {$/;"	f	file:
+setobj	common/luastate.c	/^void setobj(StkId target, StkId value) {$/;"	f
+setpause	vm/luagc.c	/^static void setpause(struct lua_State* L) {$/;"	f	file:
+setpvalue	common/luastate.c	/^void setpvalue(StkId target, void* p) {$/;"	f
+shrlen	common/luaobject.h	/^    unsigned short shrlen;$/;"	m	struct:TString
+singlestep	vm/luagc.c	/^static lu_mem singlestep(struct lua_State* L) {$/;"	f	file:
+size	common/luastate.h	/^    unsigned int size;$/;"	m	struct:stringtable
+size	common/luatable.c	/^    unsigned int size;$/;"	m	struct:Auxnode	file:
+sizelstring	common/luastring.h	27;"	d
+stack	common/luastate.h	/^    StkId stack;$/;"	m	struct:lua_State
+stack_init	common/luastate.c	/^static void stack_init(struct lua_State* L) {$/;"	f	file:
+stack_last	common/luastate.h	/^    StkId stack_last;$/;"	m	struct:lua_State
+stack_size	common/luastate.h	/^    int stack_size;$/;"	m	struct:lua_State
+status	common/luastate.h	/^    int status;$/;"	m	struct:lua_State
+status	vm/luado.c	/^    int status;$/;"	m	struct:lua_longjmp	file:
+strcache	common/luastate.h	/^    TString* strcache[STRCACHE_M][STRCACHE_N];$/;"	m	struct:global_State
+stringtable	common/luastate.h	/^struct stringtable {$/;"	s
+strt	common/luastate.h	/^    struct stringtable strt;$/;"	m	struct:global_State	typeref:struct:global_State::stringtable
+sweepgc	common/luastate.h	/^    struct GCObject** sweepgc;$/;"	m	struct:global_State	typeref:struct:global_State::GCObject
+sweeplist	vm/luagc.c	/^static struct GCObject** sweeplist(struct lua_State* L, struct GCObject** p, size_t count) {$/;"	f	file:
+sweepstep	vm/luagc.c	/^static void sweepstep(struct lua_State* L) {$/;"	f	file:
+sweepwholelist	vm/luagc.c	32;"	d	file:
+t	common/luatable.c	/^    struct Table* t;$/;"	m	struct:Auxnode	typeref:struct:Auxnode::Table	file:
+tbl	common/luastate.h	/^    struct Table tbl;$/;"	m	union:GCUnion	typeref:struct:GCUnion::Table
+test_ci	test/p1_test.c	/^static struct CallInfo* test_ci = NULL;$/;"	v	typeref:struct:CallInfo	file:
+test_gc	test/p3_test.c	/^void test_gc(struct lua_State* L) {$/;"	f
+test_internal	test/p3_test.c	/^void test_internal(struct lua_State* L, const char* str, int is_variant) {$/;"	f
+test_kv	test/p4_test.c	/^static void test_kv(struct lua_State* L) {$/;"	f	file:
+test_main01	test/p1_test.c	/^static int test_main01(struct lua_State* L) {$/;"	f	file:
+test_main02	test/p1_test.c	/^static int test_main02(struct lua_State* L) {$/;"	f	file:
+test_main03	test/p1_test.c	/^static int test_main03(struct lua_State* L) {$/;"	f	file:
+test_main04	test/p1_test.c	/^static int test_main04(struct lua_State* L) {$/;"	f	file:
+test_main05	test/p1_test.c	/^static int test_main05(struct lua_State* L) {$/;"	f	file:
+test_main06	test/p1_test.c	/^static int test_main06(struct lua_State* L) {$/;"	f	file:
+test_main07	test/p1_test.c	/^static int test_main07(struct lua_State* L) {$/;"	f	file:
+test_main08	test/p1_test.c	/^static int test_main08(struct lua_State* L) {$/;"	f	file:
+test_main09	test/p1_test.c	/^static int test_main09(struct lua_State* L) {$/;"	f	file:
+test_main10	test/p1_test.c	/^static int test_main10(struct lua_State* L) {$/;"	f	file:
+test_nestcal01	test/p1_test.c	/^static int test_nestcal01(struct lua_State* L) {$/;"	f	file:
+test_print	test/p3_test.c	/^void test_print(struct lua_State* L, const char* str) {$/;"	f
+test_result07_nwant	test/p1_test.c	/^static int test_result07_nwant = 8;$/;"	v	file:
+test_result08_nresult	test/p1_test.c	/^static int test_result08_nresult = 7;$/;"	v	file:
+test_result08_nwant	test/p1_test.c	/^static int test_result08_nwant = 8;$/;"	v	file:
+test_string_cache	test/p3_test.c	/^void test_string_cache(struct lua_State* L, int is_same_str) {$/;"	f
+testbit	vm/luagc.h	48;"	d
+testbits	vm/luagc.h	45;"	d
+th	common/luastate.h	/^    lua_State th;$/;"	m	union:GCUnion
+top	common/luastate.h	/^    StkId top;$/;"	m	struct:CallInfo
+top	common/luastate.h	/^    StkId top;$/;"	m	struct:lua_State
+totalbytes	common/luastate.h	/^    lu_mem totalbytes;$/;"	m	struct:global_State
+traverse_strong_table	vm/luagc.c	/^static lu_mem traverse_strong_table(struct lua_State* L, struct Table* t) {$/;"	f	file:
+traverse_thread	vm/luagc.c	/^static lu_mem traverse_thread(struct lua_State* L, struct lua_State* th) {$/;"	f	file:
+ts	common/luastate.h	/^    TString ts;$/;"	m	union:GCUnion
+tt_	common/luaobject.h	/^        int tt_;$/;"	m	struct:TKey::__anon2
+tt_	common/luaobject.h	/^    int tt_;$/;"	m	struct:lua_TValue
+ttisdeadkey	common/luaobject.h	69;"	d
+ttisinteger	common/luaobject.h	65;"	d
+ttislngstr	common/luaobject.h	68;"	d
+ttisnil	common/luaobject.h	71;"	d
+ttisnumber	common/luaobject.h	66;"	d
+ttisshrstr	common/luaobject.h	67;"	d
+ttistable	common/luaobject.h	70;"	d
+tvk	common/luaobject.h	/^    TValue tvk;$/;"	m	union:TKey
+twoto	common/luaobject.h	55;"	d
+u	common/luaobject.h	/^    } u;$/;"	m	struct:TString	typeref:union:TString::__anon1
+ud	common/luastate.h	/^    void* ud; $/;"	m	struct:global_State
+value	common/luaobject.h	/^    TValue value;$/;"	m	struct:Node
+value_	common/luaobject.h	/^        Value value_;$/;"	m	struct:TKey::__anon2
+value_	common/luaobject.h	/^    Value value_;$/;"	m	struct:lua_TValue
+white2gray	vm/luagc.c	29;"	d	file:
