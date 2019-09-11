@@ -18,8 +18,12 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.*/
 
+#ifndef LUA_LEXER
+#define LUA_LEXER
+
 #include "../common/lua.h"
 #include "../common/luaobject.h"
+#include "luazio.h"
 
 typedef union Seminfo {
     lua_Number r;
@@ -27,12 +31,29 @@ typedef union Seminfo {
     TString* s; 
 } Seminfo;
 
-struct Token {
+typedef struct Token {
     int token;          // token enum value
     Seminfo seminfo;    // token info
-};
+} Token;
 
-struct LexState {
-    int current; // current char in file
+// Token cache
+typedef struct MBuffer {
+	char* buffer;
+	int n;
+	int size;
+} MBuffer;
 
-};
+typedef struct LexState {
+	Zio* zio;		// get a char from stream
+    int current;	// current char in file
+	MBuffer buff;	// we cache a series of characters into buff, and recognize which token it is
+	Token t;		// current token
+	int linenumber;
+	Dyndata* dyd;
+	FuncState* fs;
+	lua_State* L;
+	TString* source;
+	TString* env;
+} LexState;
+
+#endif

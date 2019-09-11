@@ -17,11 +17,25 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.*/
+#ifndef LUA_ZIO
+#define LUA_ZIO
 
 #include "../common/lua.h"
 
-struct LoadF {
+typedef char* (*lua_Reader)(struct lua_State* L, void* data, size_t* size);
+
+typedef struct LoadF {
     FILE* f;
     char buff[BUFSIZ]; // read the file stream into buff
 	int n;		       // how many char you have read
-};
+} LoadF;
+
+typedef struct Zio {
+	lua_Reader reader;		// read buffer to p
+	int n;					// the number of unused bytes
+	void* p;				// the pointer to buffer
+	void* data;				// structure which holds FILE handler
+	struct lua_State* L;
+} Zio;
+
+#endif
