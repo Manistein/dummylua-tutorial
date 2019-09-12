@@ -21,6 +21,13 @@ SOFTWARE.*/
 #ifndef LUA_PARSER
 #define LUA_PARSER
 
+// Token cache
+typedef struct MBuffer {
+	char* buffer;
+	int n;
+	int size;
+} MBuffer;
+
 typedef struct Dyndata {
 	struct {
 		short* arr;
@@ -30,8 +37,17 @@ typedef struct Dyndata {
 } Dyndata;
 
 typedef struct FuncState {
+	int firstlocal;
 	FuncState* prev;
 	LexState* fs;
+	Proto* p;
+	int pc;				// next code array index to save instruction
+	int k;				// next constant array index to save const value
+	int nup;			// next upvalues array index to save upval
+	int nlocvars;		// the number of local values
+	int nactvars;		// the number of activate values
+	int np;				// the number of protos
+	int freereg;		// free register index
 } FuncState;
 
 #endif

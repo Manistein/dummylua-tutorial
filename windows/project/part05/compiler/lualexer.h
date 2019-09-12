@@ -25,6 +25,8 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include "../common/luaobject.h"
 #include "luazio.h"
 
+#define bufferclear(b) (b.n = 0)
+
 typedef union Seminfo {
     lua_Number r;
     lua_Integer i;
@@ -35,13 +37,6 @@ typedef struct Token {
     int token;          // token enum value
     Seminfo seminfo;    // token info
 } Token;
-
-// Token cache
-typedef struct MBuffer {
-	char* buffer;
-	int n;
-	int size;
-} MBuffer;
 
 typedef struct LexState {
 	Zio* zio;		// get a char from stream
@@ -55,5 +50,8 @@ typedef struct LexState {
 	TString* source;
 	TString* env;
 } LexState;
+
+void luaX_setinput(struct lua_State* L, LexState* ls, TString* source, TString* env);
+Token luaX_next(struct lua_State* L, LexState* ls);
 
 #endif

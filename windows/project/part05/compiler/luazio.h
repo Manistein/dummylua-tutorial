@@ -24,6 +24,8 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 
 typedef char* (*lua_Reader)(struct lua_State* L, void* data, size_t* size);
 
+#define zget(z) (z->n-- > 0 ? z->p++ : luaZ_fill(z))
+
 typedef struct LoadF {
     FILE* f;
     char buff[BUFSIZ]; // read the file stream into buff
@@ -33,9 +35,13 @@ typedef struct LoadF {
 typedef struct Zio {
 	lua_Reader reader;		// read buffer to p
 	int n;					// the number of unused bytes
-	void* p;				// the pointer to buffer
+	char* p;				// the pointer to buffer
 	void* data;				// structure which holds FILE handler
 	struct lua_State* L;
 } Zio;
 
+void luaZ_init(struct lua_State* L, Zio* zio, lua_Reader reader, void* data);
+
+// if fill success, then it will return next character in ASCII table, or it will return -1
+int luaZ_fill(Zio* z);	
 #endif
