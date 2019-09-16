@@ -52,4 +52,6 @@ int luaL_getglobal(struct lua_State* L);
 void luaL_pop(struct lua_State* L);
 int luaL_stacksize(struct lua_State* L);
 
+// load source and compile, if load success, then it returns 0, otherwise it returns error code
+int luaL_loadfile(struct lua_State* L, const char* filename);
 #endif

@@ -161,3 +161,7 @@ void luaL_pop(struct lua_State* L) {
 int luaL_stacksize(struct lua_State* L) {
     return lua_gettop(L);
 }
+
+int luaL_loadfile(struct lua_State* L, const char* filename) {
+	return 0;
+}

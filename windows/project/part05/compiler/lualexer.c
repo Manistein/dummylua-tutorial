@@ -8,6 +8,7 @@ void luaX_setinput(struct lua_State* L, LexState* ls, TString* source, TString* 
 }
 
 Token luaX_next(struct lua_State* L, LexState* ls) {
+	Token token;
 	bufferclear(ls->buff);
 
 	switch (ls->current)
@@ -47,5 +48,6 @@ Token luaX_next(struct lua_State* L, LexState* ls) {
 		break;
 	default:break;
 	}
-		
+
+	return token;
 }

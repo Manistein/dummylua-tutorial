@@ -270,3 +270,11 @@ int luaD_pcall(struct lua_State* L, Pfunc f, void* ud, ptrdiff_t oldtop, ptrdiff
     L->errorfunc = old_errorfunc; 
     return status;
 }
+
+int luaD_load(struct lua_State* L, lua_Reader reader, void* data) {
+	return 0;
+}
+
+void luaD_protectedparser(struct lua_State* L, Zio* z) {
+
+}

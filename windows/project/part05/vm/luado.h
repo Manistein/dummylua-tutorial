@@ -22,6 +22,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #define luado_h 
 
 #include "../common/luastate.h"
+#include "../compiler/luazio.h"
 
 typedef int (*Pfunc)(struct lua_State* L, void* ud);
 
@@ -35,5 +36,7 @@ int luaD_precall(struct lua_State* L, StkId func, int nresult);
 int luaD_poscall(struct lua_State* L, StkId first_result, int nresult);
 int luaD_call(struct lua_State* L, StkId func, int nresult);
 int luaD_pcall(struct lua_State* L, Pfunc f, void* ud, ptrdiff_t oldtop, ptrdiff_t ef);
+int luaD_load(struct lua_State* L, lua_Reader reader, void* data);
+void luaD_protectedparser(struct lua_State* L, Zio* z);
 
 #endif 

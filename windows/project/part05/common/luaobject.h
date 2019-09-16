@@ -137,6 +137,7 @@ struct Table {
     struct GCObject* gclist;
 };
 
+// compiler and vm structs
 typedef struct LocVar {
     TString* varname;
     int startpc;
@@ -167,11 +168,11 @@ typedef struct Proto {
     struct GCObject* gclist;
 } Proto;
 
-struct LClosure {
+typedef struct LClosure {
     ClosureHeader;
     Proto* p;
     TValue* upval[1];
-};
+} LClosure;
 
 int luaO_ceillog2(int value);
 
