@@ -26,7 +26,7 @@ int luaZ_fill(Zio* z) {
 		z->n--;
 	}
 	else {
-		c = -1;
+		c = EOF;
 	}
 	
 	return c;

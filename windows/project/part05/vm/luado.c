@@ -271,7 +271,18 @@ int luaD_pcall(struct lua_State* L, Pfunc f, void* ud, ptrdiff_t oldtop, ptrdiff
     return status;
 }
 
+static void skipBOM(Zio* z) {
+
+}
+
+static void skipcommnet(Zio* z) {
+
+}
+
 int luaD_load(struct lua_State* L, lua_Reader reader, void* data) {
+	Zio z;
+	luaZ_init(L, reader, &z, data);
+
 	return 0;
 }
 

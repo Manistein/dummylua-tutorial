@@ -162,6 +162,35 @@ int luaL_stacksize(struct lua_State* L) {
     return lua_gettop(L);
 }
 
+static char* getF(struct lua_State* L, void* data, size_t* sz) {
+	LoadF* lf = (LoadF*)data;
+	if (lf->n > 0) {
+		*sz = lf->n;
+	}
+	else {
+		*sz = fread(lf->buff, sizeof(char), BUFSIZ, lf->f);
+		lf->n = *sz;
+	}
+
+	return lf->buff;
+}
+
 int luaL_loadfile(struct lua_State* L, const char* filename) {
-	return 0;
+	FILE* fptr = fopen(filename, "rb");
+	if (fptr == NULL)
+	{
+		printf("can not open file %s", filename);
+		return 0;
+	}
+
+	// init LoadF
+	LoadF lf;
+	lf.f = fptr;
+	lf.n = 0;
+	memset(lf.buff, 0, BUFSIZ);
+
+	luaD_load(L, getF, &lf);
+	fclose(fptr);
+
+	return 1;
 }
