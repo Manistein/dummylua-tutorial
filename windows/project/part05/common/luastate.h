@@ -107,6 +107,7 @@ union GCUnion {
     lua_State th;
     TString ts;
     struct Table tbl;
+	Closure cl;
 };
 
 struct lua_State* lua_newstate(lua_Alloc alloc, void* ud);
@@ -119,6 +120,7 @@ void setbvalue(StkId target, bool b);
 void setnilvalue(StkId target);
 void setpvalue(StkId target, void* p);
 void setgco(StkId target, struct GCObject* gco);
+void setlclvalue(StkId target, struct LClosure* cl);
 
 void setobj(StkId target, StkId value);
 

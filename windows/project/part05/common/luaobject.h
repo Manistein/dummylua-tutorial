@@ -174,6 +174,10 @@ typedef struct LClosure {
     TValue* upval[1];
 } LClosure;
 
+typedef union Closure {
+	LClosure l;
+} Closure;
+
 int luaO_ceillog2(int value);
 
 #endif 

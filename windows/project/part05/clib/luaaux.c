@@ -176,7 +176,8 @@ static char* getF(struct lua_State* L, void* data, size_t* sz) {
 }
 
 int luaL_loadfile(struct lua_State* L, const char* filename) {
-	FILE* fptr = fopen(filename, "rb");
+	FILE* fptr = NULL;
+	fopen_s(&fptr, filename, "rb");
 	if (fptr == NULL)
 	{
 		printf("can not open file %s", filename);
@@ -189,7 +190,7 @@ int luaL_loadfile(struct lua_State* L, const char* filename) {
 	lf.n = 0;
 	memset(lf.buff, 0, BUFSIZ);
 
-	luaD_load(L, getF, &lf);
+	luaD_load(L, getF, &lf, filename);
 	fclose(fptr);
 
 	return 1;

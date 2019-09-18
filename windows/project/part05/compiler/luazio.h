@@ -24,7 +24,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 
 typedef char* (*lua_Reader)(struct lua_State* L, void* data, size_t* size);
 
-#define zget(z) (z->n-- > 0 ? z->p++ : luaZ_fill(z))
+#define zget(z) ((z)->n-- > 0 ? *(z)->p++ : luaZ_fill(z))
 
 typedef struct LoadF {
     FILE* f;

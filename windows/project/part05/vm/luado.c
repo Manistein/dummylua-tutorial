@@ -20,6 +20,9 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 
 #include "luado.h"
 #include "../common/luamem.h"
+#include "../compiler/luaparser.h"
+#include "../compiler/lualexer.h"
+#include "../common/lua.h"
 
 #define LUA_TRY(L, c, a) if (_setjmp((c)->b) == 0) { a } 
 
@@ -271,21 +274,87 @@ int luaD_pcall(struct lua_State* L, Pfunc f, void* ud, ptrdiff_t oldtop, ptrdiff
     return status;
 }
 
-static void skipBOM(Zio* z) {
+// skip utf-8 BOM
+static int skipBOM(LoadF* lf) {
+	const char* bom = "\xEF\xBB\xBF";
 
+	do {
+		int c = getc(lf);
+		if (c == EOF || c != *bom) {
+			return c;
+		}
+
+		lf->buff[lf->n++] = c;
+		bom++;
+	} while (*bom != '\0');
+	
+	lf->n = 0;
+	return getc(lf->f);
 }
 
-static void skipcommnet(Zio* z) {
-
-}
-
-int luaD_load(struct lua_State* L, lua_Reader reader, void* data) {
-	Zio z;
-	luaZ_init(L, reader, &z, data);
-
+// skip first line comment, if it exist
+static int skipcommnet(LoadF* lf, int* c) {
+	*c = skipBOM(lf);
+	if (*c == '#') { // Unix exec file?
+		do {
+			*c = getc(lf->f);
+		} while (*c != '\n' && *c != EOF);
+		return 1;
+	}
 	return 0;
 }
 
-void luaD_protectedparser(struct lua_State* L, Zio* z) {
+// load lua source code from file, and parse it
+int luaD_load(struct lua_State* L, lua_Reader reader, void* data, const char* filename) {
+	LoadF* lf = (LoadF*)data;
 
+	int c = 0;
+	skipcommnet(lf, &c);
+	if (c == EOF) {
+		printf("EOF error!");
+		return 0;
+	}
+
+	lf->buff[lf->n++] = c;
+
+	Zio z;
+	luaZ_init(L, &z, reader, data);
+
+	if (!luaD_protectedparser(L, &z, filename)) {
+		printf("protected parser error!");
+		return 0;
+	}
+
+	return 1;
+}
+
+// a struct for tranfer param for f_parser
+typedef struct SParser {
+	MBuffer buffer;
+	Dyndata dyd;
+	Zio* z;
+	char* filename;
+} SParser;
+
+static int f_parser(struct lua_State* L, void* ud) {
+	SParser* p = (SParser*)ud;
+	luaY_parser(L, p->z, &p->buffer, &p->dyd, p->filename);
+	return 1;
+}
+
+int luaD_protectedparser(struct lua_State* L, Zio* z, const char* filename) {
+	SParser p;
+	p.filename = filename;
+	p.z = z;
+	p.dyd.actvar.arr = p.buffer.buffer = NULL;
+	p.dyd.actvar.size = p.buffer.size = 0;
+	p.dyd.actvar.n = p.buffer.n = 0;
+
+	int status = luaD_pcall(L, f_parser, (void*)(&p), savestack(L, L->top), L->errorfunc);
+	if (status != LUA_OK) {
+		printf("luaD_protectedparser call f_parser failure");
+		return 0;
+	}
+
+	return 1;
 }

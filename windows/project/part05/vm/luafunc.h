@@ -18,25 +18,15 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.*/
 
-#ifndef luado_h
-#define luado_h 
+#ifndef luafunc_h
+#define luafunc_h
 
-#include "../common/luastate.h"
-#include "../compiler/luazio.h"
+#include "../common/luaobject.h"
 
-typedef int (*Pfunc)(struct lua_State* L, void* ud);
+Proto* luaF_newproto(struct lua_State* L);
+void luaF_freeproto(struct lua_State* L, Proto* p);
 
-void seterrobj(struct lua_State* L, int error);
-void luaD_checkstack(struct lua_State* L, int need);
-void luaD_growstack(struct lua_State* L, int size);
-void luaD_throw(struct lua_State* L, int error);
+LClosure* luaF_newLclosure(struct lua_State* L, int nup);
+void luaF_freeLclosure(struct lua_State* L, LClosure* cl);
 
-int luaD_rawrunprotected(struct lua_State* L, Pfunc f, void* ud);
-int luaD_precall(struct lua_State* L, StkId func, int nresult);
-int luaD_poscall(struct lua_State* L, StkId first_result, int nresult);
-int luaD_call(struct lua_State* L, StkId func, int nresult);
-int luaD_pcall(struct lua_State* L, Pfunc f, void* ud, ptrdiff_t oldtop, ptrdiff_t ef);
-int luaD_load(struct lua_State* L, lua_Reader reader, void* data, const char* filename); // load lua source from file, and parser it
-int luaD_protectedparser(struct lua_State* L, Zio* z, const char* filename);
-
-#endif 
+#endif

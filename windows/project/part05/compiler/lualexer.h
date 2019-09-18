@@ -25,7 +25,26 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include "../common/luaobject.h"
 #include "luazio.h"
 
-#define bufferclear(b) (b.n = 0)
+#define bufferclear(b) (b->n = 0)
+#define FIRST_REVERSED 257
+
+// 1~256 should reserve for ASCII character token
+enum RESERVED {
+	/* terminal token donated by reserved word */
+	TK_LOCAL = FIRST_REVERSED,
+	TK_NIL,
+	TK_TRUE,
+	TK_FALSE,
+	TK_FUNCTION,
+
+	/* other token */
+	TK_STRING,
+	TK_NAME,
+	TK_FLOAT,
+	TK_INT,
+};
+
+#define NUM_REVERSED (TK_FUNCTION - FIRST_REVERSED + 1)
 
 typedef union Seminfo {
     lua_Number r;
@@ -41,17 +60,17 @@ typedef struct Token {
 typedef struct LexState {
 	Zio* zio;		// get a char from stream
     int current;	// current char in file
-	MBuffer buff;	// we cache a series of characters into buff, and recognize which token it is
+	struct MBuffer* buff;	// we cache a series of characters into buff, and recognize which token it is
 	Token t;		// current token
 	int linenumber;
-	Dyndata* dyd;
-	FuncState* fs;
+	struct Dyndata* dyd;
+	struct FuncState* fs;
 	lua_State* L;
 	TString* source;
 	TString* env;
 } LexState;
 
-void luaX_setinput(struct lua_State* L, LexState* ls, TString* source, TString* env);
+void luaX_setinput(struct lua_State* L, LexState* ls, Zio* z, MBuffer* buffer, Dyndata* dyd, TString* source, TString* env);
 Token luaX_next(struct lua_State* L, LexState* ls);
 
 #endif

@@ -192,6 +192,12 @@ void setgco(StkId target, struct GCObject* gco) {
     target->tt_ = gco->tt_;
 }
 
+void setlclvalue(StkId target, struct LClosure* cl)
+{
+	union GCUnion* gcu = cast(union GCUnion*, cl);
+	setgco(target, &gcu->gc);
+}
+
 void setobj(StkId target, StkId value) {
     target->value_ = value->value_;
     target->tt_ = value->tt_;

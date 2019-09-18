@@ -21,6 +21,9 @@ SOFTWARE.*/
 #ifndef LUA_PARSER
 #define LUA_PARSER
 
+#include "../common/luaobject.h"
+#include "../compiler/luazio.h"
+
 typedef enum expkind {
 	VVOID,			// expression is void
 	VNIL,			// expression is nil value
@@ -69,8 +72,8 @@ typedef struct Dyndata {
 
 typedef struct FuncState {
 	int firstlocal;
-	FuncState* prev;
-	LexState* fs;
+	struct FuncState* prev;
+	struct LexState* ls;
 	Proto* p;
 	int pc;				// next code array index to save instruction
 	int nk;				// next constant array index to save const value
@@ -81,5 +84,5 @@ typedef struct FuncState {
 	int freereg;		// free register index
 } FuncState;
 
-LClosure* luaY_parser(struct lua_State* L, Zio* zio, MBuffer buffer, Dyndata* dyd, const char* name, int firstchar);
+LClosure* luaY_parser(struct lua_State* L, Zio* zio, MBuffer* buffer, Dyndata* dyd, const char* name);
 #endif

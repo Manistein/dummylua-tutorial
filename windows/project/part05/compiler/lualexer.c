@@ -1,10 +1,19 @@
-#include "luaparser.h"
 #include "lualexer.h"
+#include "luaparser.h"
 
-void luaX_setinput(struct lua_State* L, LexState* ls, TString* source, TString* env) {
+void luaX_setinput(struct lua_State* L, LexState* ls, Zio* z, MBuffer* buffer, Dyndata* dyd, TString* source, TString* env) {
 	ls->L = L;
 	ls->source = source;
 	ls->env = env;
+	ls->current = 0;
+	ls->buff = buffer;
+	ls->dyd = dyd;
+	ls->env = env;
+	ls->fs = NULL;
+	ls->linenumber = 1;
+	ls->t.token = 0;
+	ls->t.seminfo.i = 0;
+	ls->zio = z;
 }
 
 Token luaX_next(struct lua_State* L, LexState* ls) {
