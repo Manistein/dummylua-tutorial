@@ -166,6 +166,7 @@
     <ClInclude Include="test\p3_test.h" />
     <ClInclude Include="test\p4_test.h" />
     <ClInclude Include="vm\luado.h" />
+    <ClInclude Include="vm\luafunc.h" />
     <ClInclude Include="vm\luagc.h" />
     <ClInclude Include="vm\luaopcodes.h" />
     <ClInclude Include="vm\luavm.h" />
@@ -186,6 +187,7 @@
     <ClCompile Include="test\p3_test.c" />
     <ClCompile Include="test\p4_test.c" />
     <ClCompile Include="vm\luado.c" />
+    <ClCompile Include="vm\luafunc.c" />
     <ClCompile Include="vm\luagc.c" />
     <ClCompile Include="vm\luaopcodes.c" />
     <ClCompile Include="vm\luavm.c" />

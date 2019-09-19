@@ -69,6 +69,9 @@
     <ClInclude Include="vm\luavm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="vm\luafunc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="part05.cpp">
@@ -123,6 +126,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="vm\luavm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vm\luafunc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

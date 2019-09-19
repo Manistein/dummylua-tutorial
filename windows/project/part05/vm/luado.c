@@ -311,7 +311,7 @@ int luaD_load(struct lua_State* L, lua_Reader reader, void* data, const char* fi
 	int c = 0;
 	skipcommnet(lf, &c);
 	if (c == EOF) {
-		printf("EOF error!");
+		LUA_ERROR(L, "EOF error!");
 		return 0;
 	}
 
@@ -321,7 +321,7 @@ int luaD_load(struct lua_State* L, lua_Reader reader, void* data, const char* fi
 	luaZ_init(L, &z, reader, data);
 
 	if (!luaD_protectedparser(L, &z, filename)) {
-		printf("protected parser error!");
+		LUA_ERROR(L, "protected parser error!");
 		return 0;
 	}
 
@@ -344,15 +344,16 @@ static int f_parser(struct lua_State* L, void* ud) {
 
 int luaD_protectedparser(struct lua_State* L, Zio* z, const char* filename) {
 	SParser p;
-	p.filename = filename;
+	p.filename = (char*)filename;
 	p.z = z;
-	p.dyd.actvar.arr = p.buffer.buffer = NULL;
+	p.dyd.actvar.arr = NULL;
+	p.buffer.buffer = NULL;
 	p.dyd.actvar.size = p.buffer.size = 0;
 	p.dyd.actvar.n = p.buffer.n = 0;
 
 	int status = luaD_pcall(L, f_parser, (void*)(&p), savestack(L, L->top), L->errorfunc);
 	if (status != LUA_OK) {
-		printf("luaD_protectedparser call f_parser failure");
+		LUA_ERROR(L, "luaD_protectedparser call f_parser failure");
 		return 0;
 	}
 

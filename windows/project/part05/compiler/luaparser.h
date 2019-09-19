@@ -18,8 +18,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 
-#ifndef LUA_PARSER
-#define LUA_PARSER
+#ifndef lua_parser_h
+#define lua_parser_h
 
 #include "../common/luaobject.h"
 #include "../compiler/luazio.h"
@@ -77,7 +77,7 @@ typedef struct FuncState {
 	Proto* p;
 	int pc;				// next code array index to save instruction
 	int nk;				// next constant array index to save const value
-	int nup;			// next upvalues array index to save upval
+	int nups;			// next upvalues array index to save upval
 	int nlocvars;		// the number of local values
 	int nactvars;		// the number of activate values
 	int np;				// the number of protos

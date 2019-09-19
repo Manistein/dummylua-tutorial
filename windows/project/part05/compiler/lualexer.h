@@ -70,7 +70,7 @@ typedef struct LexState {
 	TString* env;
 } LexState;
 
-void luaX_setinput(struct lua_State* L, LexState* ls, Zio* z, MBuffer* buffer, Dyndata* dyd, TString* source, TString* env);
+void luaX_setinput(struct lua_State* L, LexState* ls, Zio* z, struct MBuffer* buffer, struct Dyndata* dyd, TString* source, TString* env);
 Token luaX_next(struct lua_State* L, LexState* ls);
 
 #endif
