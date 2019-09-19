@@ -32,6 +32,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include <limits.h>
 #include <time.h>
 #include <math.h>
+#include <stdint.h>
 
 static int POINTER_SIZE = sizeof(void*);
 
@@ -82,7 +83,7 @@ static int POINTER_SIZE = sizeof(void*);
 #define LUA_MAXCALLS 200
 
 // error tips
-#define LUA_ERROR(L, s) printf("LUA ERROR:%s", s);
+#define LUA_ERROR(L, s) printf("LUA ERROR:%s", s)
 
 // mem define
 typedef size_t      lu_mem;
