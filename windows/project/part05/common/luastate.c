@@ -24,6 +24,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include "../vm/luavm.h"
 #include "luastring.h"
 #include "luatable.h"
+#include "../compiler/lualexer.h"
 
 typedef struct LX {
     lu_byte extra_[LUA_EXTRASPACE];
@@ -125,6 +126,7 @@ struct lua_State* lua_newstate(lua_Alloc alloc, void* ud) {
     stack_init(L);
     luaS_init(L);
     init_registry(L);
+	luaX_init(L);
 
     return L;
 }

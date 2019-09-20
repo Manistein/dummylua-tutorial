@@ -20,6 +20,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 
 #include "luastring.h"
 #include "luamem.h"
+#include "luaobject.h"
 
 #define MINSTRTABLESIZE 128
 

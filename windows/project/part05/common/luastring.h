@@ -26,6 +26,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 
 #define sizelstring(l) (sizeof(TString) + (l + 1) * sizeof(char))
 #define getstr(ts) (ts->data)
+#define luaS_newliteral(L, s) luaS_newlstr(L, s, strlen(s))
 
 void luaS_init(struct lua_State* L);
 int luaS_resize(struct lua_State* L, unsigned int nsize); // only for short string

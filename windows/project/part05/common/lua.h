@@ -34,9 +34,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include <math.h>
 #include <stdint.h>
 
-static int POINTER_SIZE = sizeof(void*);
-
-#if POINTER_SIZE  >= 8
+#if defined(LLONG_MAX) 
 #define LUA_INTEGER long
 #define LUA_NUMBER double
 #else
@@ -44,6 +42,7 @@ static int POINTER_SIZE = sizeof(void*);
 #define LUA_NUMBER float 
 #endif 
 
+#define LUA_ENV "_ENV"
 #define LUA_UNSIGNED unsigned LUA_INTEGER 
 #define lua_assert(c) ((void)0)
 #define check_exp(c, e) (lua_assert(c), e)
