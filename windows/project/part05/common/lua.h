@@ -52,6 +52,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #define LUA_ERRERR 1
 #define LUA_ERRMEM 2
 #define LUA_ERRRUN 3 
+#define LUA_ERRCOMPILE 4
 
 #define cast(t, exp) ((t)(exp))
 #define savestack(L, o) ((o) - (L)->stack)

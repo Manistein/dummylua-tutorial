@@ -42,6 +42,7 @@ enum RESERVED {
 	TK_NAME,
 	TK_FLOAT,
 	TK_INT,
+	TK_EOS,
 };
 
 #define NUM_RESERVED (TK_FUNCTION - FIRST_REVERSED + 1)
@@ -72,6 +73,6 @@ typedef struct LexState {
 
 void luaX_init(struct lua_State* L);
 void luaX_setinput(struct lua_State* L, LexState* ls, Zio* z, struct MBuffer* buffer, struct Dyndata* dyd, TString* source, TString* env);
-Token luaX_next(struct lua_State* L, LexState* ls);
+int luaX_next(struct lua_State* L, LexState* ls);
 
 #endif
