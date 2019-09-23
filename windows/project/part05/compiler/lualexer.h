@@ -25,7 +25,6 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include "../common/luaobject.h"
 #include "luazio.h"
 
-#define bufferclear(b) (b->n = 0)
 #define FIRST_REVERSED 257
 
 // 1~256 should reserve for ASCII character token
@@ -42,6 +41,11 @@ enum RESERVED {
 	TK_NAME,
 	TK_FLOAT,
 	TK_INT,
+	TK_NOTEQUAL,
+	TK_MOD,
+	TK_DOT,
+	TK_VARARG,
+	TK_CONCAT,
 	TK_EOS,
 };
 

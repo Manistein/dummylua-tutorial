@@ -2,8 +2,10 @@
 #include "luaparser.h"
 #include "../common/luastring.h"
 #include "../vm/luado.h"
+#include "luazio.h"
 
 #define next(ls) (ls->current = zget(ls->zio))
+#define save_and_next(L, ls) (save(L, ls); ls->current = next(ls);)
 #define currIsNewLine(ls) (ls->current == '\n' || ls->current == '\r')
 
 // the sequence must be the same as enum RESERVED
@@ -55,8 +57,30 @@ static void inclinenumber(LexState* ls) {
 	}
 }
 
-int luaX_next(struct lua_State* L, LexState* ls) {
-	bufferclear(ls->buff);
+// save character into buffer
+static void save(struct lua_State* L, LexState* ls) {
+	if (ls->buff->n + 1 > luaZ_buffersize(ls)) {
+		int size = luaZ_buffersize(ls) * 2;
+		if (size < MIN_BUFF_SIZE) {
+			size = MIN_BUFF_SIZE;
+		}
+
+		ls->buff->buffer = G(L)->frealloc(NULL, ls->buff->buffer, luaZ_buffersize(ls), size);
+		if (ls->buff->buffer == NULL) {
+			LUA_ERROR(L, "lualexer:the saved string is too long");
+			luaD_throw(L, LUA_ERRCOMPILE);
+		}
+		ls->buff->size = size;
+	}
+
+	ls->buff->buffer[ls->buff->n++] = ls->current;
+}
+
+static void read_string(LexState* ls, int delimiter, Seminfo* seminfo) {
+}
+
+static int llex(LexState* ls, Seminfo* seminfo) {
+	luaZ_resetbuffer(ls);
 
 	for (;;) {
 		switch (ls->current)
@@ -77,28 +101,60 @@ int luaX_next(struct lua_State* L, LexState* ls) {
 					next(ls);
 			}
 			else {
-				ls->t.token = '-';
 				return '-';
 			}
 		} break;
 		case EOF:{
-			ls->t.token = TK_EOS;
+			next(ls);
 			return TK_EOS;
 		}
-		case '+':
-			break;
-		case '*':
-			break;
-		case '/':
-			break;
-		case '~':
-			break;
-		case '%':
-			break;
-		case '.':
-			break;
-		case '"':
-			break;
+		case '+': {
+			next(ls);
+			return '+';
+		} break;
+		case '*': {
+			next(ls);
+			return '*';
+		} break;
+		case '/': {
+			next(ls);
+			return '/';
+		} break;
+		case '~': {
+			next(ls);
+			// not equal
+			if (ls->current == '=') {
+				next(ls);
+				return TK_NOTEQUAL;
+			}
+			else {
+				return '~';
+			}
+		} break;
+		case '%': {
+			next(ls);
+			return TK_MOD;
+		} break;
+		case '.': {
+			next(ls);
+			if (ls->current == '.') {
+				next(ls);
+				// the '...' means vararg 
+				if (ls->current == '.') {
+					return TK_VARARG;
+				}
+				// the '..' means concat
+				else {
+					return TK_CONCAT;
+				}
+			}
+			else {
+				return TK_DOT;
+			}
+		} break;
+		case '"': case '\'': { // process string
+
+		} break;
 		case '(':
 			break;
 		case ')':
@@ -127,4 +183,8 @@ int luaX_next(struct lua_State* L, LexState* ls) {
 	}
 
 	return TK_EOS;
+}
+
+int luaX_next(struct lua_State* L, LexState* ls) {
+	ls->t.token = llex(ls, &ls->t.seminfo);
 }

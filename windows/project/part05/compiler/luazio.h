@@ -24,7 +24,10 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 
 typedef char* (*lua_Reader)(struct lua_State* L, void* data, size_t* size);
 
+#define MIN_BUFF_SIZE 32 
 #define zget(z) ((z)->n-- > 0 ? *(z)->p++ : luaZ_fill(z))
+#define luaZ_resetbuffer(ls) (ls->buff->n = 0)
+#define luaZ_buffersize(ls) (ls->buff->size)
 
 typedef struct LoadF {
     FILE* f;
