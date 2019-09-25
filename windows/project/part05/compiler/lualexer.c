@@ -5,7 +5,7 @@
 #include "luazio.h"
 
 #define next(ls) (ls->current = zget(ls->zio))
-#define save_and_next(L, ls) (save(L, ls); ls->current = next(ls);)
+#define save_and_next(L, ls, c) save(L, ls, c); ls->current = next(ls)
 #define currIsNewLine(ls) (ls->current == '\n' || ls->current == '\r')
 
 // the sequence must be the same as enum RESERVED
@@ -58,7 +58,7 @@ static void inclinenumber(LexState* ls) {
 }
 
 // save character into buffer
-static void save(struct lua_State* L, LexState* ls) {
+static void save(struct lua_State* L, LexState* ls, int character) {
 	if (ls->buff->n + 1 > luaZ_buffersize(ls)) {
 		int size = luaZ_buffersize(ls) * 2;
 		if (size < MIN_BUFF_SIZE) {
@@ -73,10 +73,50 @@ static void save(struct lua_State* L, LexState* ls) {
 		ls->buff->size = size;
 	}
 
-	ls->buff->buffer[ls->buff->n++] = ls->current;
+	ls->buff->buffer[ls->buff->n++] = character;
 }
 
-static void read_string(LexState* ls, int delimiter, Seminfo* seminfo) {
+static int read_string(LexState* ls, int delimiter, Seminfo* seminfo) {
+	next(ls);
+	while (ls->current != delimiter) {
+		int c = 0;
+		switch (ls->current)
+		{
+		case '\n': case '\r': case EOF: {
+			LUA_ERROR(ls->L, "uncomplete string");
+			luaD_throw(ls->L, LUA_ERRCOMPILE);
+		} break;
+		case '\\': {
+			next(ls);
+			switch (ls->current)
+			{
+			case 't':{ c = '\t'; goto save_escape_sequence; }
+			case 'v':{ c = '\v'; goto save_escape_sequence; }
+			case 'a':{ c = '\a'; goto save_escape_sequence; }
+			case 'b':{ c = '\b'; goto save_escape_sequence; }
+			case 'f':{ c = '\f'; goto save_escape_sequence; }
+			case 'n':{ c = '\n'; goto save_escape_sequence; }
+			case 'r': {
+				c = '\r';
+			save_escape_sequence:
+				save_and_next(ls->L, ls, c);
+			} break;
+			default: {
+				save(ls->L, ls, '\\');
+				save_and_next(ls->L, ls, ls->current);
+			} break;
+			}
+		}
+		default: {
+			save_and_next(ls->L, ls, ls->current);
+		} break;
+		}
+	}
+	next(ls);
+
+	seminfo->s = luaS_newliteral(ls->L, ls->buff->buffer);
+
+	return TK_STRING;
 }
 
 static int llex(LexState* ls, Seminfo* seminfo) {
@@ -111,15 +151,15 @@ static int llex(LexState* ls, Seminfo* seminfo) {
 		case '+': {
 			next(ls);
 			return '+';
-		} break;
+		}
 		case '*': {
 			next(ls);
 			return '*';
-		} break;
+		}
 		case '/': {
 			next(ls);
 			return '/';
-		} break;
+		}
 		case '~': {
 			next(ls);
 			// not equal
@@ -130,11 +170,11 @@ static int llex(LexState* ls, Seminfo* seminfo) {
 			else {
 				return '~';
 			}
-		} break;
+		}
 		case '%': {
 			next(ls);
 			return TK_MOD;
-		} break;
+		}
 		case '.': {
 			next(ls);
 			if (ls->current == '.') {
@@ -151,26 +191,45 @@ static int llex(LexState* ls, Seminfo* seminfo) {
 			else {
 				return TK_DOT;
 			}
-		} break;
+		}
 		case '"': case '\'': { // process string
-
-		} break;
-		case '(':
-			break;
-		case ')':
-			break;
-		case '[':
-			break;
-		case ']':
-			break;
-		case '{':
-			break;
-		case '}':
-			break;
-		case '>':
-			break;
-		case '<':
-			break;
+			return read_string(ls, ls->current, &ls->t.seminfo);
+		}
+		case '(': return '(';
+		case ')': return ')';
+		case '[': return '[';
+		case ']': return ']';
+		case '{': return '{';
+		case '}': return '}';
+		case '>': {
+			next(ls);
+			if (ls->current == '=') {
+				next(ls);
+				return TK_GREATEREQUAL;
+			}
+			else if (ls->current == '>') {
+				next(ls);
+				return TK_SHR;
+			}
+			else {
+				return '>';
+			}
+		}
+		case '<':{
+			next(ls);
+			if (ls->current == '=') {
+				next(ls);
+				return TK_LESSEQUAL;
+			}
+			else if (ls->current == '<')
+			{
+				next(ls);
+				return TK_SHL;
+			}
+			else {
+				return '<';
+			}
+		}
 		case '=':
 			break;
 		case ',':
