@@ -7,7 +7,6 @@
 #define next(ls) (ls->current = zget(ls->zio))
 #define save_and_next(L, ls, c) save(L, ls, c); ls->current = next(ls)
 #define currIsNewLine(ls) (ls->current == '\n' || ls->current == '\r')
-#define is_digit(c) (c >= 48 && c <= 57)
 
 // the sequence must be the same as enum RESERVED
 static const char* luaX_tokens[] = {
@@ -126,7 +125,7 @@ static int str2number(LexState* ls, bool has_dot) {
 		save(ls->L, ls, '.');
 	}
 
-	while (is_digit(ls->current) || ls->current == '.') {
+	while (isdigit(ls->current) || ls->current == '.') {
 		if (ls->current == '.') {
 			if (has_dot) {
 				LUA_ERROR(ls->L, "unknow number");
@@ -138,13 +137,19 @@ static int str2number(LexState* ls, bool has_dot) {
 	}
 	save(ls->L, ls, '\0');
 
-	
+	if (has_dot) {
+		ls->t.seminfo.r = atof(ls->buff->buffer);
+		return TK_FLOAT;
+	}
+	else {
+		ls->t.seminfo.i = atoi(ls->buff->buffer);
+		return TK_INT;
+	}
 }
 
 static int llex(LexState* ls, Seminfo* seminfo) {
-	luaZ_resetbuffer(ls);
-
 	for (;;) {
+		luaZ_resetbuffer(ls);
 		switch (ls->current)
 		{
 		// new line
@@ -199,8 +204,8 @@ static int llex(LexState* ls, Seminfo* seminfo) {
 		}
 		case '.': {
 			next(ls);
-			if (is_digit(ls->current)) {
-				return str2number(ls);
+			if (isdigit(ls->current)) {
+				return str2number(ls, true);
 			}
 			else if (ls->current == '.') {
 				next(ls);
@@ -270,9 +275,31 @@ static int llex(LexState* ls, Seminfo* seminfo) {
 		}
 		case '0': case '1': case '2': case '3': case '4':
 		case '5': case '6': case '7': case '8': case '9': {
-
+			return str2number(ls, false);
 		}
-		default:break;
+		default: {
+			// TK_NAME or reserved name
+			if (isalpha(ls->current) || ls->current == '_') {
+				while (isalpha(ls->current) || ls->current == '_') {
+					save_and_next(ls->L, ls, ls->current);
+				}
+				save(ls->L, ls, '\0');
+				
+				TString* s = luaS_newlstr(ls->L, ls->buff->buffer, strlen(ls->buff->buffer));
+				if (s->extra > 0) {
+					return s->extra;
+				}
+				else {
+					ls->t.seminfo.s = s;
+					return TK_NAME;
+				}
+			}
+			else { // single char
+				int c = ls->current;
+				next(ls);
+				return c;
+			}
+		}
 		}
 	}
 
