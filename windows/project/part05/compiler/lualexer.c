@@ -7,6 +7,7 @@
 #define next(ls) (ls->current = zget(ls->zio))
 #define save_and_next(L, ls, c) save(L, ls, c); ls->current = next(ls)
 #define currIsNewLine(ls) (ls->current == '\n' || ls->current == '\r')
+#define is_digit(c) (c >= 48 && c <= 57)
 
 // the sequence must be the same as enum RESERVED
 static const char* luaX_tokens[] = {
@@ -53,7 +54,7 @@ static void inclinenumber(LexState* ls) {
 
 	if (++ls->linenumber >= INT_MAX) {
 		LUA_ERROR(ls->L, "function inclinenumber is reach INT_MAX");
-		luaD_throw(ls->L, LUA_ERRCOMPILE);
+		luaD_throw(ls->L, LUA_ERRLEXER);
 	}
 }
 
@@ -68,7 +69,7 @@ static void save(struct lua_State* L, LexState* ls, int character) {
 		ls->buff->buffer = G(L)->frealloc(NULL, ls->buff->buffer, luaZ_buffersize(ls), size);
 		if (ls->buff->buffer == NULL) {
 			LUA_ERROR(L, "lualexer:the saved string is too long");
-			luaD_throw(L, LUA_ERRCOMPILE);
+			luaD_throw(L, LUA_ERRLEXER);
 		}
 		ls->buff->size = size;
 	}
@@ -84,7 +85,7 @@ static int read_string(LexState* ls, int delimiter, Seminfo* seminfo) {
 		{
 		case '\n': case '\r': case EOF: {
 			LUA_ERROR(ls->L, "uncomplete string");
-			luaD_throw(ls->L, LUA_ERRCOMPILE);
+			luaD_throw(ls->L, LUA_ERRLEXER);
 		} break;
 		case '\\': {
 			next(ls);
@@ -117,6 +118,27 @@ static int read_string(LexState* ls, int delimiter, Seminfo* seminfo) {
 	seminfo->s = luaS_newliteral(ls->L, ls->buff->buffer);
 
 	return TK_STRING;
+}
+
+static int str2number(LexState* ls, bool has_dot) {
+	if (has_dot) {
+		save(ls->L, ls, '0');
+		save(ls->L, ls, '.');
+	}
+
+	while (is_digit(ls->current) || ls->current == '.') {
+		if (ls->current == '.') {
+			if (has_dot) {
+				LUA_ERROR(ls->L, "unknow number");
+				luaD_throw(ls->L, LUA_ERRLEXER);
+			}
+			has_dot = true;
+		}
+		save_and_next(ls->L, ls, ls->current);
+	}
+	save(ls->L, ls, '\0');
+
+	
 }
 
 static int llex(LexState* ls, Seminfo* seminfo) {
@@ -177,7 +199,10 @@ static int llex(LexState* ls, Seminfo* seminfo) {
 		}
 		case '.': {
 			next(ls);
-			if (ls->current == '.') {
+			if (is_digit(ls->current)) {
+				return str2number(ls);
+			}
+			else if (ls->current == '.') {
 				next(ls);
 				// the '...' means vararg 
 				if (ls->current == '.') {
@@ -230,13 +255,23 @@ static int llex(LexState* ls, Seminfo* seminfo) {
 				return '<';
 			}
 		}
-		case '=':
-			break;
-		case ',':
-			break;
+		case '=': {
+			next(ls);
+			if (ls->current == '=') {
+				next(ls);
+				return TK_EQUAL;
+			}
+			else {
+				return '=';
+			}
+		}
+		case ',': {
+			return ',';
+		}
 		case '0': case '1': case '2': case '3': case '4':
-		case '5': case '6': case '7': case '8': case '9':
-			break;
+		case '5': case '6': case '7': case '8': case '9': {
+
+		}
 		default:break;
 		}
 	}
