@@ -497,7 +497,7 @@ int luaH_next(struct lua_State* L, struct Table* t, TValue* key) {
             return LUA_OK;
         }
     }
-    return 0;
+    return -1;
 }
 
 int luaH_getn(struct lua_State* L, struct Table* t) {
