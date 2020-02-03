@@ -72,11 +72,17 @@
     <ClInclude Include="vm\luafunc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="common\luabase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\luacode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test\p5_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="part05.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="clib\luaaux.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -129,6 +135,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="vm\luafunc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\luabase.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\luainit.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\luacode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\p5_test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
