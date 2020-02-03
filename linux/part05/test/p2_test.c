@@ -2,6 +2,7 @@
 #include "../vm/luagc.h"
 #include "p2_test.h"
 #include <time.h>
+#include "../common/luastring.h"
 
 #define ELEMENTNUM 5
 
@@ -18,9 +19,10 @@ void p2_test_main() {
    size_t max_bytes = 0;
    struct global_State* g = G(L);
    int j = 0;
-   for (; j < 500000000; j ++) {
-        TValue* o = luaL_index2addr(L, (j % ELEMENTNUM) + 1);
-        struct GCObject* gco = luaC_newobj(L, LUA_TSTRING, sizeof(TString));
+   for (; j < 50000; j ++) {
+        TValue* o = luaL_index2addr(L, (j % ELEMENTNUM));
+		TString* ts = luaS_newliteral(L, "This is long string. This is long string. This is long string. This is long string. This is long string.");
+		struct GCObject* gco = obj2gco(ts);
         o->value_.gc = gco;
         o->tt_ = LUA_TSTRING;
         luaC_checkgc(L);
