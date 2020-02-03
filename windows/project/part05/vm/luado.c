@@ -23,6 +23,10 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include "../compiler/luaparser.h"
 #include "../compiler/lualexer.h"
 #include "../common/lua.h"
+#include "../common/luaobject.h"
+#include "luagc.h"
+#include "luafunc.h"
+#include "luavm.h"
 
 #define LUA_TRY(L, c, a) if (_setjmp((c)->b) == 0) { a } 
 
@@ -43,6 +47,7 @@ void seterrobj(struct lua_State* L, int error) {
 }
 
 void luaD_checkstack(struct lua_State* L, int need) {
+	luaC_checkgc(L);
     if (L->top + need > L->stack_last) {
         luaD_growstack(L, need);
     }
@@ -116,7 +121,6 @@ int luaD_rawrunprotected(struct lua_State* L, Pfunc f, void* ud) {
 }
 
 static struct CallInfo* next_ci(struct lua_State* L, StkId func, int nresult) {
-    struct global_State* g = G(L);
     struct CallInfo* ci;
 
     if (L->ci->next) {
@@ -143,11 +147,20 @@ static struct CallInfo* next_ci(struct lua_State* L, StkId func, int nresult) {
 // if we call a c function, just directly call it
 // if we call a lua function, just prepare for call it
 int luaD_precall(struct lua_State* L, StkId func, int nresult) {
-    switch(func->tt_) {
-        case LUA_TLCF: {
-            lua_CFunction f = func->value_.f;
+	lua_CFunction f;
+	ptrdiff_t func_diff;
 
-            ptrdiff_t func_diff = savestack(L, func);
+    switch(func->tt_) {
+		case LUA_TCCL: {
+			struct GCObject* gco = gcvalue(func);
+			CClosure* cc = gco2cclosure(gco);
+			f = cc->f;
+			goto cfunc;
+		} break;
+        case LUA_TLCF: {
+            f = func->value_.f;
+		cfunc:
+            func_diff = savestack(L, func);
             luaD_checkstack(L, LUA_MINSTACK);
             func = restorestack(L, func_diff);
 
@@ -157,7 +170,30 @@ int luaD_precall(struct lua_State* L, StkId func, int nresult) {
             luaD_poscall(L, L->top - n, n);
             return 1; 
         } break;
-        default:break;
+		case LUA_TLCL: {
+			struct GCObject* gco = gcvalue(func);
+			LClosure* cl = gco2lclosure(gco);
+			int fsize = cl->p->maxstacksize;
+
+			func_diff = savestack(L, func);
+			luaD_checkstack(L, fsize);
+			func = restorestack(L, func_diff);
+			int n = L->top - func - 1;
+			for (int i = n; i < cl->p->nparam; i++) {
+				setnilvalue(L->top++);
+			}
+
+			next_ci(L, func, nresult);
+			L->ci->func = func;
+			L->ci->l.base = func + 1;
+			L->top = L->ci->top = L->ci->l.base + fsize;
+			L->ci->l.savedpc = cl->p->code;
+			L->ci->callstatus |= CIST_LUA;
+		} break;
+		default: {
+			LUA_ERROR(L, "attempt to call a unsupport value.");
+			luaD_throw(L, LUA_ERRERR);
+		} break;
     }
 
     return 0;
@@ -242,7 +278,7 @@ int luaD_call(struct lua_State* L, StkId func, int nresult) {
     }
 
     if (!luaD_precall(L, func, nresult)) {
-        // TODO luaV_execute(L);
+        luaV_execute(L);
     }
     
     L->ncalls--;
@@ -250,8 +286,7 @@ int luaD_call(struct lua_State* L, StkId func, int nresult) {
 }
 
 static void reset_unuse_stack(struct lua_State* L, ptrdiff_t old_top) {
-    struct global_State* g = G(L);
-    StkId top = restorestack(L, old_top);
+	StkId top = restorestack(L, old_top);
     for (; top < L->top; top++) {
         top->tt_ = LUA_TNIL;
     }
@@ -279,7 +314,7 @@ static int skipBOM(LoadF* lf) {
 	const char* bom = "\xEF\xBB\xBF";
 
 	do {
-		int c = getc(lf);
+		int c = (int)getc(lf->f);
 		if (c == EOF || c != *bom) {
 			return c;
 		}
@@ -312,7 +347,7 @@ int luaD_load(struct lua_State* L, lua_Reader reader, void* data, const char* fi
 	skipcommnet(lf, &c);
 	if (c == EOF) {
 		LUA_ERROR(L, "EOF error!");
-		return 0;
+		return LUA_ERRERR;
 	}
 
 	lf->buff[lf->n++] = c;
@@ -320,12 +355,12 @@ int luaD_load(struct lua_State* L, lua_Reader reader, void* data, const char* fi
 	Zio z;
 	luaZ_init(L, &z, reader, data);
 
-	if (!luaD_protectedparser(L, &z, filename)) {
-		LUA_ERROR(L, "protected parser error!");
-		return 0;
+	if (luaD_protectedparser(L, &z, filename) != LUA_OK) {
+		LUA_ERROR(L, "protected parser error!\n");
+		return LUA_ERRERR;
 	}
 
-	return 1;
+	return LUA_OK;
 }
 
 // a struct for tranfer param for f_parser
@@ -338,8 +373,12 @@ typedef struct SParser {
 
 static int f_parser(struct lua_State* L, void* ud) {
 	SParser* p = (SParser*)ud;
-	luaY_parser(L, p->z, &p->buffer, &p->dyd, p->filename);
-	return 1;
+	LClosure* cl = luaY_parser(L, p->z, &p->buffer, &p->dyd, p->filename);
+	if (cl) {
+		luaF_initupvals(L, cl);
+	}
+
+	return LUA_OK;
 }
 
 int luaD_protectedparser(struct lua_State* L, Zio* z, const char* filename) {
@@ -353,9 +392,11 @@ int luaD_protectedparser(struct lua_State* L, Zio* z, const char* filename) {
 
 	int status = luaD_pcall(L, f_parser, (void*)(&p), savestack(L, L->top), L->errorfunc);
 	if (status != LUA_OK) {
-		LUA_ERROR(L, "luaD_protectedparser call f_parser failure");
-		return 0;
+		LUA_ERROR(L, "luaD_protectedparser call f_parser failure\n");
+		return LUA_ERRERR;
 	}
 
-	return 1;
+	luaM_free(L, p.dyd.actvar.arr, p.dyd.actvar.size);
+	luaM_free(L, p.buffer.buffer, p.buffer.size);
+	return LUA_OK;
 }

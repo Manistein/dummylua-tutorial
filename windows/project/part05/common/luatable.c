@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 Manistein,https://manistein.github.io/blog/  
+/* Copyright (c) 2018 Manistein, https://manistein.github.io/blog/  
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -179,7 +179,7 @@ int luaH_setint(struct lua_State* L, struct Table* t, int key, const TValue* val
     
     cell->value_ = value->value_;
     cell->tt_ = value->tt_;
-    return 1;
+    return LUA_OK;
 }
 
 const TValue* luaH_getshrstr(struct lua_State* L, struct Table* t, struct TString* key) {
@@ -256,7 +256,7 @@ int luaH_resize(struct lua_State* L, struct Table* t, unsigned int asize, unsign
         luaM_reallocvector(L, t->array, t->arraysize, asize, TValue); 
         t->arraysize = asize;
 
-        for (int i = old_asize; i < asize; i ++) {
+        for (unsigned int i = old_asize; i < asize; i ++) {
             setnilvalue(&t->array[i]);
         }
     }
@@ -271,7 +271,7 @@ int luaH_resize(struct lua_State* L, struct Table* t, unsigned int asize, unsign
 
     // shrink array
     if (asize < old_asize) {
-        for (int i = asize; i < old_asize; i++) {
+        for (unsigned int i = asize; i < old_asize; i++) {
             if (!ttisnil(&t->array[i])) {
                 luaH_setint(L, t, i + 1, &t->array[i]);
             }
@@ -280,7 +280,7 @@ int luaH_resize(struct lua_State* L, struct Table* t, unsigned int asize, unsign
         t->arraysize = asize;
     }
 
-    for (int i = 0; i < old_node_size; i++) {
+    for (unsigned int i = 0; i < old_node_size; i++) {
         Node* n = &old_node[i];
         if (!ttisnil(getval(n))) {
             setobj(luaH_set(L, t, getkey(n)), getval(n));
@@ -291,7 +291,7 @@ int luaH_resize(struct lua_State* L, struct Table* t, unsigned int asize, unsign
         luaM_free(L, old_node, old_node_size * sizeof(Node));
     }
 
-    return 1;
+    return LUA_OK;
 }
 
 static Node* getlastfree(struct Table* t) {
@@ -320,7 +320,7 @@ static Node* getlastfree(struct Table* t) {
 static int numsarray(struct Table* t, int* nums) {
     int totaluse = 0;
     int idx = 0;
-    for (int i = 0, twotoi = 1; twotoi <= t->arraysize; i ++, twotoi *= 2) {
+    for (int i = 0, twotoi = 1; twotoi <= (int)t->arraysize; i ++, twotoi *= 2) {
         for (; idx < twotoi; idx++) {
             if (!ttisnil(&t->array[idx])) {
                 totaluse ++;
@@ -354,7 +354,7 @@ static int compute_array_size(struct Table* t, int* nums, int* array_used_num) {
     int array_size = 0;
     int sum_array_used = 0;
     int sum_int_keys = 0;
-    for (unsigned int i = 0, twotoi = 1; i < MAXABITS + 1; i++, twotoi *= 2) {
+    for (int i = 0, twotoi = 1; (i < MAXABITS + 1) && (twotoi > 0); i++, twotoi *= 2) {
         sum_int_keys += nums[i];
         if (sum_int_keys > twotoi / 2) {
             array_size = twotoi;
@@ -409,7 +409,7 @@ TValue* luaH_newkey(struct lua_State* L, struct Table* t, const TValue* key) {
     if (!ttisnil(getval(main_node)) || isdummy(t)) {
         Node* lastfree = getlastfree(t); 
         if (lastfree == NULL) {
-            rehash(L, t, key); 
+            rehash(L, t, key);
             return luaH_set(L, t, key);
         }
 
@@ -426,15 +426,20 @@ TValue* luaH_newkey(struct lua_State* L, struct Table* t, const TValue* key) {
             main_node->key.nk.next = 0;
             setnilvalue(getval(main_node));
         }
-        else {
+        else {			
+			if (main_node->key.nk.next != 0) {
+				Node* next = main_node + main_node->key.nk.next;
+				lastfree->key.nk.next = next - lastfree;
+			}
             main_node->key.nk.next = lastfree - main_node;
             main_node = lastfree;
         }
     }
-    
+
     setobj(getwkey(main_node), cast(TValue*, key));
     luaC_barrierback(L, t, key);
     lua_assert(ttisnil(getval(main_node)));
+
     return getval(main_node);
 }
 
@@ -480,16 +485,16 @@ int luaH_next(struct lua_State* L, struct Table* t, TValue* key) {
         if (!ttisnil(&t->array[i])) {
             setivalue(key, i + 1);
             setobj(key + 1, &t->array[i]);
-            return 1;
+            return LUA_OK;
         }
     }
     
-    for (i -= t->arraysize; i < twoto(t->lsizenode); i ++) {
+    for (i -= t->arraysize; i < (unsigned int)twoto(t->lsizenode); i ++) {
         Node* n = getnode(t, i);
         if (!ttisnil(getval(n))) {
             setobj(key, getwkey(n));
             setobj(key + 1, getval(n));
-            return 1;
+            return LUA_OK;
         }
     }
     return 0;
@@ -497,7 +502,7 @@ int luaH_next(struct lua_State* L, struct Table* t, TValue* key) {
 
 int luaH_getn(struct lua_State* L, struct Table* t) {
     int n = 0;
-    for (int i = 0; i < t->arraysize; i++) {
+    for (int i = 0; i < (int)t->arraysize; i++) {
         if (!ttisnil(&t->array[i])) {
             n ++;
         }

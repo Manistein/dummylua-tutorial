@@ -24,6 +24,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include "lua.h"
 
 typedef struct lua_State lua_State;
+typedef struct UpVal UpVal;
 
 typedef LUA_INTEGER lua_Integer;
 typedef LUA_NUMBER lua_Number;
@@ -54,6 +55,7 @@ typedef void* (*lua_Alloc)(void* ud, void* ptr, size_t osize, size_t nsize);
 #define luaO_nilobject (&luaO_nilobject_)
 #define MAXSHORTSTR 40
 #define MAXUPVAL 255
+#define MAXLOCALVAR 200
 
 #define dummynode (&dummynode_)
 #define twoto(lsize) (1 << lsize)
@@ -73,6 +75,14 @@ typedef void* (*lua_Alloc)(void* ud, void* ptr, size_t osize, size_t nsize);
 #define ttisdeadkey(o) ((o)->tt_ == LUA_TDEADKEY)
 #define ttistable(o) ((o)->tt_ == LUA_TTABLE)
 #define ttisnil(o) ((o)->tt_ == LUA_TNIL)
+
+#ifdef _WINDOWS_PLATFORM_
+#define l_sprintf sprintf_s
+#define l_fopen fopen_s
+#else
+#define l_sprintf(buf, maxsize, fmt, args...) sprintf(buf, fmt, args) 
+#define l_fopen(h, name, mode) (*h = fopen(name, mode))
+#endif
 
 struct GCObject {
     CommonHeader;
@@ -167,16 +177,24 @@ typedef struct Proto {
     int sizep;
     TString* source;
     struct GCObject* gclist;
+	int maxstacksize;
 } Proto;
 
 typedef struct LClosure {
     ClosureHeader;
     Proto* p;
-    TValue* upval[1];
+    UpVal* upvals[1];
 } LClosure;
+
+typedef struct CClosure {
+	ClosureHeader;
+	lua_CFunction f;
+	UpVal* upvals[1];
+} CClosure;
 
 typedef union Closure {
 	LClosure l;
+	CClosure c;
 } Closure;
 
 int luaO_ceillog2(int value);

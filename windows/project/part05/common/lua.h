@@ -37,12 +37,19 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #if defined(LLONG_MAX) 
 #define LUA_INTEGER long
 #define LUA_NUMBER double
+
+#define LUA_INTEGER_FORMAT "%ld"
+#define LUA_NUMBER_FORMAT "%lf"
 #else
 #define LUA_INTEGER int 
 #define LUA_NUMBER float 
+
+#define LUA_INTEGER_FORMAT "%d"
+#define LUA_NUMBER_FORMAT "%f"
 #endif 
 
 #define LUA_ENV "_ENV"
+#define LUA_LOADED "_LOADED"
 #define LUA_UNSIGNED unsigned LUA_INTEGER 
 #define lua_assert(c) ((void)0)
 #define check_exp(c, e) (lua_assert(c), e)
@@ -53,6 +60,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #define LUA_ERRMEM 2
 #define LUA_ERRRUN 3 
 #define LUA_ERRLEXER 4
+#define LUA_ERRPARSER 5
 
 #define cast(t, exp) ((t)(exp))
 #define savestack(L, o) ((o) - (L)->stack)
@@ -69,7 +77,8 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #define LUA_TTABLE 6
 #define LUA_TFUNCTION 7
 #define LUA_TTHREAD 8
-#define LUA_TNONE 9
+#define LUA_TPROTO 9
+#define LUA_TNONE 10
 #define LUA_NUMS LUA_TNONE 
 #define LUA_TDEADKEY (LUA_NUMS + 1)
 
@@ -96,5 +105,9 @@ typedef int Instruction;
 
 #define MAX_LUMEM ((lu_mem)(~(lu_mem)0))
 #define MAX_LMEM  (MAX_LUMEM >> 1)
-#define BUFSIZ 512
+#define BUFSIZE 512
+
+// IO
+#define lua_writestring(s) fwrite((s), sizeof(char), strlen((s)), stdout)
+#define lua_writeline()    (lua_writestring("\n"), fflush(stdout))
 #endif 

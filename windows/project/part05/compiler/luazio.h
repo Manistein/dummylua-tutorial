@@ -21,17 +21,18 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #define LUA_ZIO
 
 #include "../common/lua.h"
+#include "../common/luaobject.h"
 
 typedef char* (*lua_Reader)(struct lua_State* L, void* data, size_t* size);
 
 #define MIN_BUFF_SIZE 32 
-#define zget(z) ((z)->n-- > 0 ? *(z)->p++ : luaZ_fill(z))
+#define zget(z) (((z)->n--) > 0 ? (*(z)->p++) : luaZ_fill(z))
 #define luaZ_resetbuffer(ls) (ls->buff->n = 0)
 #define luaZ_buffersize(ls) (ls->buff->size)
 
 typedef struct LoadF {
     FILE* f;
-    char buff[BUFSIZ]; // read the file stream into buff
+    char buff[BUFSIZE]; // read the file stream into buff
 	int n;		       // how many char you have read
 } LoadF;
 

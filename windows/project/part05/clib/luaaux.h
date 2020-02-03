@@ -23,8 +23,17 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 
 #include "../common/luastate.h"
 
+// a structure for us to load standard libraries
+typedef struct lua_Reg {
+	const char* name;
+	lua_CFunction func;
+}lua_Reg;
+
 struct lua_State* luaL_newstate();
 void luaL_close(struct lua_State* L);
+
+void luaL_openlibs(struct lua_State* L);  // open standard libraries
+int luaL_requiref(struct lua_State* L, const char* name, lua_CFunction func, int glb); // try to load module into _LOADED table
 
 void luaL_pushinteger(struct lua_State* L, int integer);
 void luaL_pushnumber(struct lua_State* L, float number);
@@ -44,10 +53,11 @@ char* luaL_tostring(struct lua_State* L, int index);
 int luaL_isnil(struct lua_State* L, int idx);
 TValue* luaL_index2addr(struct lua_State* L, int idx);
 
-int luaL_createtable(struct lua_State* L);
+int luaL_createtable(struct lua_State* L); // create a new table, and push into the stack
 int luaL_settable(struct lua_State* L, int idx);
 int luaL_gettable(struct lua_State* L, int idx);
 int luaL_getglobal(struct lua_State* L);
+int luaL_getsubtable(struct lua_State* L, int idx, const char* name); // try to get a sub table by name and push into the stack
 
 void luaL_pop(struct lua_State* L);
 int luaL_stacksize(struct lua_State* L);

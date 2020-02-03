@@ -10,13 +10,13 @@ static void print_object(struct lua_State* L, TValue* o) {
             printf("nil\n");
         } break;
         case LUA_NUMINT: {
-            printf("type:int value:%d\n", o->value_.i);
+            printf("type:int value:%d\n", (int)o->value_.i);
         } break;
         case LUA_TBOOLEAN: {
-            printf("type:boolean value:%d\n", o->value_.b);
+            printf("type:boolean value:%d\n", (int)o->value_.b);
         } break;
         case LUA_NUMFLT: {
-            printf("type:float value:%f\n", o->value_.n);
+            printf("type:float value:%f\n", (float)o->value_.n);
         } break;
         case LUA_SHRSTR:; 
         case LUA_LNGSTR: {
@@ -82,7 +82,7 @@ static void test_kv(struct lua_State* L) {
     luaL_pushinteger(L, 1);  // push nil, this slot is for key
     luaL_pushnil(L);  // push nil, this slot is for value
 
-    while(luaH_next(L, t, L->top - 2)) {
+    while(luaH_next(L, t, L->top - 2) == LUA_OK) {
         printf("key:");
         print_object(L, L->top - 2);
         printf("value:");

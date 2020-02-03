@@ -28,7 +28,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 
 #define STEPMULADJ 200
 #define GCSTEPMUL 200 
-#define GCSTEPSIZE 1024  //1kb
+#define GCSTEPSIZE 2048  //2kb
 #define GCPAUSE 100
 
 // size for string cache
@@ -37,12 +37,17 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 
 #define LUA_MAINTHREADIDX 0
 #define LUA_GLOBALTBLIDX 1
+#define LUA_REGISTRYINDEX (-LUA_MAXSTACK - 1)
 
 typedef TValue* StkId;
 
 struct CallInfo {
     StkId func;
     StkId top;
+	struct { // only for lua
+		StkId base;
+		const Instruction* savedpc;
+	} l;
     int nresult;
     int callstatus;
     struct CallInfo* next;
@@ -108,6 +113,7 @@ union GCUnion {
     TString ts;
     struct Table tbl;
 	Closure cl;
+	Proto p;
 };
 
 struct lua_State* lua_newstate(lua_Alloc alloc, void* ud);
@@ -121,11 +127,13 @@ void setnilvalue(StkId target);
 void setpvalue(StkId target, void* p);
 void setgco(StkId target, struct GCObject* gco);
 void setlclvalue(StkId target, struct LClosure* cl);
+void setcclosure(StkId target, struct CClosure* cc);
 
 void setobj(StkId target, StkId value);
 
 void increase_top(struct lua_State* L);
 void lua_pushcfunction(struct lua_State* L, lua_CFunction f);
+void lua_pushCclosure(struct lua_State* L, lua_CFunction f, int nup);
 void lua_pushinteger(struct lua_State* L, int integer);
 void lua_pushnumber(struct lua_State* L, float number);
 void lua_pushboolean(struct lua_State* L, bool b);
@@ -133,16 +141,22 @@ void lua_pushnil(struct lua_State* L);
 void lua_pushlightuserdata(struct lua_State* L, void* p);
 void lua_pushstring(struct lua_State* L, const char* str);
 
-int lua_createtable(struct lua_State* L);
-int lua_settable(struct lua_State* L, int idx);
-int lua_gettable(struct lua_State* L, int idx);
-int lua_getglobal(struct lua_State* L);
+int lua_createtable(struct lua_State* L);			// create a new table, and push it into the stack
+int lua_settable(struct lua_State* L, int idx);		// t[k]=v, the table t is index by idx argument, and k, v are the values beyond t, it will trigger metamethod
+int lua_gettable(struct lua_State* L, int idx);		// get t[k] as the result, k is in the top value of stack, and t[k] will replace it, this function will trigger metamethod
+int lua_setfield(struct lua_State* L, int idx, const char* k); // set t[k]=v, v is the top value
+int lua_pushvalue(struct lua_State* L, int idx);	// push the value at the stack indexed by idx onto the top
+int lua_pushglobaltable(struct lua_State* L);				// get _G and push it into the stack
+int lua_getglobal(struct lua_State* L, const char* name);   // get a field from _G, and push it onto stack
+int lua_remove(struct lua_State* L, int idx);		// remove the value indexed by 'idx', and all the values beyond it will be moved down
+int lua_insert(struct lua_State* L, int idx, TValue* v); // insert o into the position of stack indexed by idx, and all the values beyond it will be moved up
 
 lua_Integer lua_tointegerx(struct lua_State* L, int idx, int* isnum);
 lua_Number lua_tonumberx(struct lua_State* L, int idx, int* isnum);
 bool lua_toboolean(struct lua_State* L, int idx);
 int lua_isnil(struct lua_State* L, int idx);
 char* lua_tostring(struct lua_State* L, int idx);
+struct Table* lua_totable(struct lua_State* L, int idx);
 
 void lua_settop(struct lua_State* L, int idx);
 int lua_gettop(struct lua_State* L);

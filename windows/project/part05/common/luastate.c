@@ -25,6 +25,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include "luastring.h"
 #include "luatable.h"
 #include "../compiler/lualexer.h"
+#include "../vm/luafunc.h"
 
 typedef struct LX {
     lu_byte extra_[LUA_EXTRASPACE];
@@ -200,6 +201,12 @@ void setlclvalue(StkId target, struct LClosure* cl)
 	setgco(target, &gcu->gc);
 }
 
+void setcclosure(StkId target, struct CClosure* cc)
+{
+	union GCUnion* gcu = cast(union GCUnion*, cc);
+	setgco(target, &gcu->gc);
+}
+
 void setobj(StkId target, StkId value) {
     target->value_ = value->value_;
     target->tt_ = value->tt_;
@@ -213,6 +220,14 @@ void increase_top(struct lua_State* L) {
 void lua_pushcfunction(struct lua_State* L, lua_CFunction f) {
     setfvalue(L->top, f);
     increase_top(L); 
+}
+
+void lua_pushCclosure(struct lua_State* L, lua_CFunction f, int nup)
+{
+	luaC_checkgc(L);
+	CClosure* cc = luaF_newCclosure(L, f, nup);
+	setcclosure(L->top, cc);
+	increase_top(L);
 }
 
 void lua_pushinteger(struct lua_State* L, int integer) {
@@ -241,6 +256,8 @@ void lua_pushlightuserdata(struct lua_State* L, void* p) {
 }
 
 void lua_pushstring(struct lua_State* L, const char* str) {
+	luaC_checkgc(L);
+
     unsigned int l = strlen(str);
     struct TString* ts = luaS_newlstr(L, str, l);
     struct GCObject* gco = obj2gco(ts);
@@ -249,35 +266,101 @@ void lua_pushstring(struct lua_State* L, const char* str) {
 }
 
 int lua_createtable(struct lua_State* L) {
+	luaC_checkgc(L);
+
     struct Table* tbl = luaH_new(L);
     struct GCObject* gco = obj2gco(tbl);
     setgco(L->top, gco);
     increase_top(L);
-    return 1;
+    return LUA_OK;
 }
 
 int lua_settable(struct lua_State* L, int idx) {
     TValue* o = index2addr(L, idx);
+	if (novariant(o) != LUA_TTABLE) {
+		return LUA_ERRERR;
+	}
+
     struct Table* t = gco2tbl(gcvalue(o));
     luaV_settable(L, t, L->top - 2, L->top - 1);
     L->top = L->top - 2;
-    return 1;
+    return LUA_OK;
 }
 
 int lua_gettable(struct lua_State* L, int idx) {
     TValue* o = index2addr(L, idx);
     struct Table* t = gco2tbl(gcvalue(o));
     luaV_gettable(L, t, L->top - 1, L->top - 1);
-    return 1;
+    return LUA_OK;
 }
 
-int lua_getglobal(struct lua_State* L) {
+int lua_setfield(struct lua_State* L, int idx, const char* k)
+{
+	setobj(L->top, L->top - 1);
+	increase_top(L);
+
+	TString* s = luaS_newliteral(L, k);
+	struct GCObject* gco = obj2gco(s);
+	setgco(L->top - 2, gco);
+
+	return lua_settable(L, idx);
+}
+
+int lua_pushvalue(struct lua_State* L, int idx)
+{
+	TValue* o = index2addr(L, idx);
+	setobj(L->top, o);
+	increase_top(L);
+	return LUA_OK;
+}
+
+int lua_pushglobaltable(struct lua_State* L) {
     struct global_State* g = G(L);
     struct Table* registry = gco2tbl(gcvalue(&g->l_registry));
     struct Table* t = gco2tbl(gcvalue(&registry->array[LUA_GLOBALTBLIDX]));
     setgco(L->top, obj2gco(t));
     increase_top(L);
-    return 1;
+    return LUA_OK;
+}
+
+int lua_getglobal(struct lua_State* L, const char* name) {
+	struct GCObject* gco = gcvalue(&G(L)->l_registry);
+	struct Table* t = gco2tbl(gco);
+	TValue* _go = &t->array[LUA_GLOBALTBLIDX];
+	struct Table* _G = gco2tbl(gcvalue(_go));
+	TValue* o = (TValue*)luaH_getstr(L, _G, luaS_newliteral(L, name));
+
+	setobj(L->top, o);
+	increase_top(L);
+
+	return LUA_OK;
+}
+
+int lua_remove(struct lua_State* L, int idx)
+{
+	TValue* o = index2addr(L, idx);
+	for (; o != L->top; o++) {
+		TValue* next = o + 1;
+		setobj(o, next);
+	}
+	L->top--;
+
+	return LUA_OK;
+}
+
+int lua_insert(struct lua_State* L, int idx, TValue* v)
+{
+	TValue* o = index2addr(L, idx);
+	TValue* top = L->top - 1;
+	for (; top > o; top--) {
+		TValue* prev = top - 1;
+		setobj(top, prev);
+	}
+	increase_top(L);
+
+	setobj(o, v);
+
+	return LUA_OK;
 }
 
 TValue* index2addr(struct lua_State* L, int idx) {
@@ -285,6 +368,9 @@ TValue* index2addr(struct lua_State* L, int idx) {
         assert(L->ci->func + idx < L->ci->top);
         return L->ci->func + idx;
     }
+	else if (idx == LUA_REGISTRYINDEX) {
+		return &G(L)->l_registry;
+	}
     else {
         assert(L->top + idx > L->ci->func);
         return L->top + idx;
@@ -338,6 +424,17 @@ char* lua_tostring(struct lua_State* L, int idx) {
 
     struct TString* ts = gco2ts(addr->value_.gc);
     return getstr(ts);
+}
+
+struct Table* lua_totable(struct lua_State* L, int idx)
+{
+	TValue* o = index2addr(L, idx);
+	if (novariant(o) != LUA_TTABLE) {
+		return NULL;
+	}
+
+	struct Table* t = gco2tbl(gcvalue(o));
+	return t;
 }
 
 int lua_gettop(struct lua_State* L) {

@@ -34,6 +34,10 @@ enum RESERVED {
 	TK_NIL,
 	TK_TRUE,
 	TK_FALSE,
+	TK_END,
+	TK_THEN,
+	TK_IF,
+	TK_ELSEIF,
 	TK_FUNCTION,
 
 	/* other token */
@@ -55,6 +59,8 @@ enum RESERVED {
 };
 
 #define NUM_RESERVED (TK_FUNCTION - FIRST_REVERSED + 1)
+
+extern const char* luaX_tokens[NUM_RESERVED];
 
 typedef union Seminfo {
     lua_Number r;
@@ -78,10 +84,12 @@ typedef struct LexState {
 	lua_State* L;
 	TString* source;
 	TString* env;
+	struct Table* h; // In order to fast lookup the indexes of constants in a proto, we use a hash table to cache them
 } LexState;
 
 void luaX_init(struct lua_State* L);
 void luaX_setinput(struct lua_State* L, LexState* ls, Zio* z, struct MBuffer* buffer, struct Dyndata* dyd, TString* source, TString* env);
 int luaX_next(struct lua_State* L, LexState* ls);
+void luaX_syntaxerror(struct lua_State* L, LexState* ls, const char* error_text);
 
 #endif

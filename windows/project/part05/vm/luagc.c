@@ -22,6 +22,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include "../common/luamem.h"
 #include "../common/luastring.h"
 #include "../common/luatable.h"
+#include "luafunc.h"
 
 #define GCMAXSWEEPGCO 25
 
@@ -30,6 +31,9 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #define gray2black(o) l_setbit((o)->marked, BLACKBIT)
 #define black2gray(o) resetbit((o)->marked, BLACKBIT)
 #define sweepwholelist(L, list) sweeplist(L, list, MAX_LUMEM)
+#define makewhite(o) \
+	(o)->marked &= cast(lu_byte, ~(bitmask(BLACKBIT) | WHITEBITS)); \
+	(o)->marked |= luaC_white(g)
 
 struct GCObject* luaC_newobj(struct lua_State* L, lu_byte tt_, size_t size) {
     struct global_State* g = G(L);
@@ -53,12 +57,21 @@ void reallymarkobject(struct lua_State* L, struct GCObject* gco) {
         case LUA_TTABLE:{
             linkgclist(gco2tbl(gco), g->gray);
         } break;
+		case LUA_TLCL:{
+			linkgclist(gco2lclosure(gco), g->gray);
+		} break;
+		case LUA_TCCL:{
+			linkgclist(gco2cclosure(gco), g->gray);
+		} break;
+		case LUA_TPROTO:{
+			linkgclist(gco2proto(gco), g->gray);
+		} break;
         case LUA_SHRSTR:{ 
             gray2black(gco);
             struct TString* ts = gco2ts(gco);
             g->GCmemtrav += sizelstring(ts->shrlen);
         } break;
-        case LUA_LNGSTR: {
+        case LUA_LNGSTR:{
             gray2black(gco);
             struct TString* ts = gco2ts(gco);
             g->GCmemtrav += sizelstring(ts->u.lnglen);
@@ -69,7 +82,6 @@ void reallymarkobject(struct lua_State* L, struct GCObject* gco) {
 
 static l_mem get_debt(struct lua_State* L) {
     struct global_State* g = G(L);
-    int stepmul = g->GCstepmul; 
     l_mem debt = g->GCdebt;
     if (debt <= 0) {
         return 0;
@@ -99,7 +111,7 @@ static lu_mem traverse_thread(struct lua_State* L, struct lua_State* th) {
 }
 
 static lu_mem traverse_strong_table(struct lua_State* L, struct Table* t) {
-    for (int i = 0; i < t->arraysize; i++) {
+    for (int i = 0; i < (int)t->arraysize; i++) {
         markvalue(L, &t->array[i]); 
     }
 
@@ -118,6 +130,48 @@ static lu_mem traverse_strong_table(struct lua_State* L, struct Table* t) {
     return sizeof(struct Table) + sizeof(TValue) * t->arraysize + sizeof(Node) * twoto(t->lsizenode);
 }
 
+static lu_mem traverse_proto(struct lua_State* L, struct Proto* p) {
+	if (p->source) {
+		markobject(L, p->source);
+	}
+
+	for (int i = 0; i < p->sizek; i++) {
+		markvalue(L, &p->k[i]);
+	}
+
+	for (int i = 0; i < p->sizelocvar; i++) {
+		if (p->locvars[i].varname) {
+			markobject(L, p->locvars[i].varname);
+		}
+	}
+
+	for (int i = 0; i < p->sizeupvalues; i++) {
+		if (p->upvalues[i].name) {
+			markobject(L, p->upvalues[i].name);
+		}
+	}
+
+	for (int i = 0; i < p->sizep; i++) {
+		if (p->p[i]) {
+			markobject(L, p->p[i]);
+		}
+	}
+
+	return luaF_sizeproto(L, p);
+}
+
+static lu_mem traverse_lclosure(struct lua_State* L, struct LClosure* cl) {
+	markobject(L, cl->p);
+
+	// TODO process upvalues;
+	return sizeof(struct LClosure);
+}
+
+static lu_mem traverse_cclosure(struct lua_State* L, struct CClosure* cc) {
+	// TODO process upvalues
+	return sizeof(struct CClosure);
+}
+
 static void propagatemark(struct lua_State* L) {
     struct global_State* g = G(L);
     if (!g->gray) {
@@ -129,10 +183,12 @@ static void propagatemark(struct lua_State* L) {
 
     switch(gco->tt_) {
         case LUA_TTHREAD:{
-            black2gray(gco);
             struct lua_State* th = gco2th(gco);
             g->gray = th->gclist;
-            linkgclist(th, g->grayagain);
+			if (g->mainthread == th) {
+				black2gray(gco);
+				linkgclist(th, g->grayagain);
+			}
             size = traverse_thread(L, th);
         } break;
         case LUA_TTABLE:{
@@ -140,6 +196,21 @@ static void propagatemark(struct lua_State* L) {
             g->gray = t->gclist;
             size = traverse_strong_table(L, t);
         } break;
+		case LUA_TLCL:{
+			struct LClosure* cl = gco2lclosure(gco);
+			g->gray = cl->gclist;
+			size = traverse_lclosure(L, cl);
+		} break;
+		case LUA_TCCL:{
+			struct CClosure* cc = gco2cclosure(gco);
+			g->gray = cc->gclist;
+			size = traverse_cclosure(L, cc);
+		} break;
+		case LUA_TPROTO: {
+			struct Proto* f = gco2proto(gco);
+			g->gray = f->gclist;
+			size = traverse_proto(L, f);
+		} break;
         default:break;
     }
 
@@ -185,6 +256,27 @@ static lu_mem freeobj(struct lua_State* L, struct GCObject* gco) {
             luaH_free(L, tbl);
             return sz;
         } break;
+		case LUA_TTHREAD: {
+			// TODO
+		} break;
+		case LUA_TLCL: {
+			struct LClosure* cl = gco2lclosure(gco);
+			lu_mem sz = sizeof(LClosure);
+			luaF_freeLclosure(L, cl);
+			return sz;
+		} break;
+		case LUA_TCCL: {
+			struct CClosure* cc = gco2cclosure(gco);
+			lu_mem sz = sizeof(struct CClosure);
+			luaF_freeCclosure(L, cc);
+			return sz;
+		} break;
+		case LUA_TPROTO: {
+			struct Proto* f = gco2proto(gco);
+			lu_mem sz = luaF_sizeproto(L, f);
+			luaF_freeproto(L, f);
+			return sz;
+		} break;
         default:{
             lua_assert(0);
         } break;
@@ -265,6 +357,7 @@ static lu_mem singlestep(struct lua_State* L) {
             return g->GCmemtrav;
         } break;
         case GCSsweepend: {
+			makewhite(g->mainthread);
             g->GCmemtrav = 0;
             g->gcstate = GCSpause;
             return 0;

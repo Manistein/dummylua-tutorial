@@ -22,7 +22,8 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include "../common/luastring.h"
 #include "luado.h"
 #include "luagc.h"
-
+#include "luaopcodes.h"
+#include "luafunc.h"
 
 // slot == NULL意味着t不是table类型
 void luaV_finishget(struct lua_State* L, struct Table* t, StkId val, const TValue* slot) {
@@ -80,4 +81,103 @@ int luaV_eqobject(struct lua_State* L, const TValue* a, const TValue* b) {
     } 
 
     return 0;
+}
+
+// implement of instructions
+static void newframe(struct lua_State* L);
+static void op_loadk(struct lua_State* L, LClosure* cl, StkId ra, Instruction i) {
+	int bx = GET_ARG_Bx(i);
+	setobj(ra, &cl->p->k[bx]);
+}
+
+static void op_gettabup(struct lua_State* L, LClosure* cl, StkId ra, Instruction i) {
+	int b = GET_ARG_B(i);
+	TValue* upval = cl->upvals[b]->v;
+	struct Table* t = gco2tbl(gcvalue(upval));
+	int arg_c = GET_ARG_C(i);
+	if (ISK(arg_c)) {
+		int index = arg_c - MAININDEXRK - 1;
+		TValue* key = &cl->p->k[index];
+		TValue* value = (TValue*)luaH_get(L, t, key);
+		setobj(ra, value);
+	}
+	else {
+		TValue* value = L->ci->l.base + arg_c;
+		setobj(ra, value);
+	}
+}
+
+static void op_call(struct lua_State* L, LClosure* cl, StkId ra, Instruction i) {
+	int narg = GET_ARG_B(i);
+	int nresult = GET_ARG_C(i) - 1;
+	if (narg > 0) {
+		L->top = ra + narg;
+	}
+
+	if (luaD_precall(L, ra, nresult)) { // c function
+		if (nresult >= 0) {
+			L->top = L->ci->top;
+		}
+	}
+	else {
+		newframe(L);
+	}
+}
+
+static void op_return(struct lua_State* L, LClosure* cl, StkId ra, Instruction i) {
+	int b = GET_ARG_B(i);
+	luaD_poscall(L, ra, b ? (b - 1) : (int)(L->top - ra));
+	if (L->ci->callstatus & CIST_LUA) {
+		L->top = L->ci->top;
+		lua_assert(GET_OPCODE(*(L->ci->savedpc - 1)) == OP_CALL);
+	}
+}
+
+void luaV_execute(struct lua_State* L) {
+	L->ci->callstatus |= CIST_FRESH;
+	newframe(L);
+}
+
+static Instruction vmfetch(struct lua_State* L) {
+	Instruction i = *(L->ci->l.savedpc++);
+	return i;
+}
+
+static StkId vmdecode(struct lua_State* L, Instruction i) {
+	StkId ra = L->ci->l.base + GET_ARG_A(i);
+	return ra;
+}
+
+static bool vmexecute(struct lua_State* L, StkId ra, Instruction i) {
+	bool is_loop = true;
+	struct GCObject* gco = gcvalue(L->ci->func);
+	LClosure* cl = gco2lclosure(gco);
+
+	switch (GET_OPCODE(i)) {
+	case OP_GETTABUP: {
+		op_gettabup(L, cl, ra, i);
+	} break;
+	case OP_LOADK: {
+		op_loadk(L, cl, ra, i);
+	} break;
+	case OP_CALL: {
+		op_call(L, cl, ra, i);
+	} break;
+	case OP_RETURN: {
+		op_return(L, cl, ra, i);
+		is_loop = false;
+	} break;
+	default:break;
+	}
+
+	return is_loop;
+}
+
+static void newframe(struct lua_State* L) {
+	bool is_loop = true;
+	while (is_loop) {
+		Instruction i = vmfetch(L);
+		StkId ra = vmdecode(L, i);
+		is_loop = vmexecute(L, ra, i);
+	}
 }

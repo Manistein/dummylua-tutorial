@@ -47,4 +47,6 @@ void luaV_finishget(struct lua_State* L, struct Table* t, StkId val, const TValu
 void luaV_finishset(struct lua_State* L, struct Table* t, const TValue* key, StkId val, const TValue* slot);
 int luaV_eqobject(struct lua_State* L, const TValue* a, const TValue* b);
 
+void luaV_execute(struct lua_State* L);
+
 #endif

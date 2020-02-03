@@ -39,6 +39,10 @@ void* luaM_growaux_(struct lua_State* L, void* ptr, int* size, int element, int 
 		block_size *= 2;
 	}
 
+	if (block_size <= MINARRAYSIZE) {
+		block_size = MINARRAYSIZE;
+	}
+
 	newblock = luaM_realloc(L, ptr, *size * element, block_size * element);
 	*size = block_size;
 	return newblock;

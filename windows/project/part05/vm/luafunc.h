@@ -23,10 +23,29 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 
 #include "../common/luaobject.h"
 
+#define sizeofLClosure(n) (sizeof(LClosure) + sizeof(TValue*) * ((n) - 1))
+#define sizeofCClosure(n) (sizeof(CClosure) + sizeof(TValue*) * ((n) - 1))
+#define upisopen(up) (up->v != &up->u.value)
+
+struct UpVal {
+	TValue* v;  // point to stack or its own value (when open)
+	int refcount;
+	union {
+		struct UpVal* next; // next open upvalue
+		TValue value;		// its value (when closed)
+	} u;
+};
+
 Proto* luaF_newproto(struct lua_State* L);
-void luaF_freeproto(struct lua_State* L, Proto* p);
+void luaF_freeproto(struct lua_State* L, Proto* f);
+lu_mem luaF_sizeproto(struct lua_State* L, Proto* f);
 
 LClosure* luaF_newLclosure(struct lua_State* L, int nup);
 void luaF_freeLclosure(struct lua_State* L, LClosure* cl);
+
+CClosure* luaF_newCclosure(struct lua_State* L, lua_CFunction func, int nup);
+void luaF_freeCclosure(struct lua_State* L, CClosure* cc);
+
+void luaF_initupvals(struct lua_State* L, LClosure* cl);
 
 #endif

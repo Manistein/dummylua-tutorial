@@ -12,8 +12,10 @@ m: mode(iABC,iABx,iAsBx)
 const lu_byte luaP_opmodes[NUM_OPCODES] = {
     //      t  a  b       c       m
      opmode(0, 1, OpArgR, OpArgN, iABC) // OP_MOVE,
-    ,opmode(0, 1, OpArgR, OpArgN, iABC) // OP_LOADK,
-    ,opmode(0, 1, OpArgU, OpArgK, iABC) // OP_GETUPVAL,
+    ,opmode(0, 1, OpArgK, OpArgN, iABC) // OP_LOADK,
+    ,opmode(0, 1, OpArgU, OpArgN, iABC) // OP_GETUPVAL,
     ,opmode(0, 1, OpArgU, OpArgU, iABC) // OP_CALL,
     ,opmode(0, 0, OpArgU, OpArgU, iABC) // OP_RETURN,
+	,opmode(0, 1, OpArgU, OpArgU, iABC) // OP_GETTABUP,
+	,opmode(0, 1, OpArgU, OpArgU, iABC) // OP_GETTABLE,
 };

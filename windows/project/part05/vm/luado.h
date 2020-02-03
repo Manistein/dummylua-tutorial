@@ -24,6 +24,9 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include "../common/luastate.h"
 #include "../compiler/luazio.h"
 
+#define CIST_LUA 1
+#define CIST_FRESH (1 << 1)
+
 typedef int (*Pfunc)(struct lua_State* L, void* ud);
 
 void seterrobj(struct lua_State* L, int error);

@@ -3,7 +3,7 @@
 // test case 1
 static int test_main01(struct lua_State* L) {
     lua_Integer i = luaL_tointeger(L, -1);
-    printf("test_main01 luaL_tointeger value = %d\n", i);
+    printf("test_main01 luaL_tointeger value = %d\n", (int)i);
     return 0;
 }
 
@@ -21,7 +21,7 @@ static int test_main02(struct lua_State* L) {
     i++;
     luaL_pushinteger(L, i);
 
-    printf("test_main02 luaL_tointeger value = %d\n", i);
+    printf("test_main02 luaL_tointeger value = %d\n", (int)i);
     return 1;
 }
 
@@ -109,7 +109,7 @@ static int test_main05(struct lua_State* L) {
     lua_Number n = luaL_tonumber(L, -1);
     lua_Integer i = luaL_tointeger(L, -2);
     
-    printf("test_main05 n:%f i:%d\n", n, i);
+    printf("test_main05 n:%f i:%d\n", (float)n, (int)i);
 
     luaL_pushboolean(L, true);
 
@@ -151,7 +151,7 @@ void p1_test_result06() { // nwant = 1; and nresult > 1;
     
     printf("p1_test_result06 after call stacksize:%d\n", luaL_stacksize(L));
     lua_Integer v = luaL_tointeger(L, -1);
-    printf("p1_test_result06 top value:%d\n", v);
+    printf("p1_test_result06 top value:%d\n", (int)v);
     luaL_pop(L);
     printf("p1_test_result06 final stacksize:%d\n", luaL_stacksize(L));
     
@@ -204,7 +204,7 @@ void p1_test_result08() { // nwant > 1; and nresult > 0;
         if (i != 0) {
             lua_Integer integer = luaL_tointeger(L, -1);
             luaL_pop(L);
-            printf("p1_test_result08 stack_idx:%d integer:%d\n", test_result08_nwant - i, integer);
+            printf("p1_test_result08 stack_idx:%d integer:%d\n", test_result08_nwant - i, (int)integer);
         }
         else {
             int isnil = luaL_isnil(L, -1);
@@ -255,7 +255,7 @@ void p1_test_result10() { // nwant = -1; and nresult > 0;
     for (i = 0; i < stack_size; i++) {
         lua_Integer integer = luaL_tointeger(L, -1);
         luaL_pop(L);
-        printf("stack value %d\n", integer);
+        printf("stack value %d\n", (int)integer);
     }
     printf("p1_test_result10 final stack_size:%d\n", luaL_stacksize(L));
 
@@ -264,11 +264,9 @@ void p1_test_result10() { // nwant = -1; and nresult > 0;
 
 // test case nest call 01
 static int current_calls = 0;
-static struct CallInfo* test_ci = NULL;
 static int test_nestcal01(struct lua_State* L) {
     lua_Integer arg = luaL_tointeger(L, -1);
     current_calls += 1;
-    int temp = current_calls;
     //printf("test_nestcal01 enter_calls %d\n", current_calls);
 
     if (current_calls < LUA_MAXCALLS - 1) {
@@ -289,7 +287,7 @@ void p1_test_nestcall01() { // call count < LUA_MAXCALLS
     luaL_pushinteger(L, 1);
     luaL_pcall(L, 1, 1);
 
-    printf("p1_test_nestcall01 result = %d stack_size:%d\n", luaL_tointeger(L, -1), luaL_stacksize(L));
+    printf("p1_test_nestcall01 result = %d stack_size:%d\n", (int)luaL_tointeger(L, -1), luaL_stacksize(L));
     luaL_pop(L);
 
     luaL_close(L);

@@ -50,13 +50,13 @@ int luaS_resize(struct lua_State* L, unsigned int nsize) {
     unsigned int osize = g->strt.size;
     if (nsize > osize) {
         luaM_reallocvector(L, g->strt.hash, osize, nsize, TString*);
-        for (int i = osize; i < nsize; i ++) {
+        for (unsigned int i = osize; i < nsize; i ++) {
             g->strt.hash[i] = NULL;
         }
     }
 
     // all TString value will be rehash by nsize
-    for (int i = 0; i < g->strt.size; i ++) {
+    for (unsigned int i = 0; i < g->strt.size; i ++) {
        struct TString* ts = g->strt.hash[i];
        g->strt.hash[i] = NULL;
 
@@ -196,7 +196,7 @@ int luaS_eqlngstr(struct lua_State* L, struct TString* a, struct TString* b) {
 unsigned int luaS_hash(struct lua_State* L, const char* str, unsigned int l, unsigned int h) {
     h = h ^ l;
     unsigned int step = (l >> 5) + 1;
-    for (int i = 0; i < l; i = i + step) {
+    for (unsigned int i = 0; i < l; i = i + step) {
         h ^= (h << 5) + (h >> 2) + cast(lu_byte, str[i]);
     }
     return h;

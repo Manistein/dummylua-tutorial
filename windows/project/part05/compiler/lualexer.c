@@ -3,14 +3,16 @@
 #include "../common/luastring.h"
 #include "../vm/luado.h"
 #include "luazio.h"
+#include "../common/lua.h"
+#include <ctype.h>
 
 #define next(ls) (ls->current = zget(ls->zio))
 #define save_and_next(L, ls, c) save(L, ls, c); ls->current = next(ls)
 #define currIsNewLine(ls) (ls->current == '\n' || ls->current == '\r')
 
 // the sequence must be the same as enum RESERVED
-static const char* luaX_tokens[] = {
-	"local", "nil", "true", "false", "function"
+const char* luaX_tokens[] = {
+	"local", "nil", "true", "false", "end", "then", "if", "elseif", "function"
 };
 
 void luaX_init(struct lua_State* L)
@@ -112,6 +114,7 @@ static int read_string(LexState* ls, int delimiter, Seminfo* seminfo) {
 		} break;
 		}
 	}
+	save(ls->L, ls, '\0');
 	next(ls);
 
 	seminfo->s = luaS_newliteral(ls->L, ls->buff->buffer);
@@ -211,6 +214,7 @@ static int llex(LexState* ls, Seminfo* seminfo) {
 				next(ls);
 				// the '...' means vararg 
 				if (ls->current == '.') {
+					next(ls);
 					return TK_VARARG;
 				}
 				// the '..' means concat
@@ -225,12 +229,30 @@ static int llex(LexState* ls, Seminfo* seminfo) {
 		case '"': case '\'': { // process string
 			return read_string(ls, ls->current, &ls->t.seminfo);
 		}
-		case '(': return '(';
-		case ')': return ')';
-		case '[': return '[';
-		case ']': return ']';
-		case '{': return '{';
-		case '}': return '}';
+		case '(': {
+			next(ls);
+			return '(';
+		}
+		case ')': {
+			next(ls);
+			return ')';
+		}
+		case '[': {
+			next(ls);
+			return '[';
+		}
+		case ']': {
+			next(ls);
+			return ']';
+		}
+		case '{': {
+			next(ls);
+			return '{';
+		}
+		case '}': {
+			next(ls);
+			return '}';
+		}
 		case '>': {
 			next(ls);
 			if (ls->current == '=') {
@@ -271,6 +293,7 @@ static int llex(LexState* ls, Seminfo* seminfo) {
 			}
 		}
 		case ',': {
+			next(ls);
 			return ',';
 		}
 		case '0': case '1': case '2': case '3': case '4':
@@ -308,4 +331,76 @@ static int llex(LexState* ls, Seminfo* seminfo) {
 
 int luaX_next(struct lua_State* L, LexState* ls) {
 	ls->t.token = llex(ls, &ls->t.seminfo);
+	return ls->t.token;
+}
+
+void luaX_syntaxerror(struct lua_State* L, LexState* ls, const char* error_text) {
+	lua_writestring(getstr(ls->source));
+	lua_writestring(" ");
+
+	char buf[1024];
+	l_sprintf(buf, sizeof(buf), "%d", ls->linenumber);
+	lua_writestring(buf);
+	lua_writestring(":");
+	lua_writestring("syntax error near ");
+	
+	if (ls->t.token >= FIRST_REVERSED && ls->t.token <= TK_FUNCTION) {
+		lua_writestring(luaX_tokens[ls->t.token - FIRST_REVERSED]);
+	}
+	else {
+		switch (ls->t.token) {
+		case TK_STRING: case TK_NAME: {
+			lua_writestring(getstr(ls->t.seminfo.s));
+		} break;
+		case TK_FLOAT: {
+			l_sprintf(buf, sizeof(buf), "%f", (float)ls->t.seminfo.r);
+			lua_writestring(buf);
+		} break;
+		case TK_INT: {
+			l_sprintf(buf, sizeof(buf), "%d", (int)ls->t.seminfo.i);
+			lua_writestring(buf);
+		} break;
+		case TK_NOTEQUAL: {
+			lua_writestring("~=");
+		} break;
+		case TK_EQUAL: {
+			lua_writestring("==");
+		} break;
+		case TK_GREATEREQUAL: {
+			lua_writestring(">=");
+		} break;
+		case TK_LESSEQUAL: {
+			lua_writestring("<=");
+		} break;
+		case TK_SHL: {
+			lua_writestring("<<");
+		} break;
+		case TK_SHR: {
+			lua_writestring(">>");
+		} break;
+		case TK_MOD: {
+			lua_writestring("%");
+		} break;
+		case TK_DOT: {
+			lua_writestring(".");
+		} break;
+		case TK_VARARG: {
+			lua_writestring("...");
+		} break;
+		case TK_CONCAT: {
+			lua_writestring("..");
+		} break;
+		case TK_EOS: {
+			lua_writestring("eos");
+		} break;
+		default: {
+			l_sprintf(buf, sizeof(buf), "%c", ls->t.token);
+			lua_writestring(buf);
+		} break;
+		}
+	}
+	lua_writestring(" ");
+	lua_writestring(error_text);
+	lua_writeline();
+	luaD_throw(L, LUA_ERRLEXER);
 }
