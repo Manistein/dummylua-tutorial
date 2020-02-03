@@ -427,6 +427,10 @@ TValue* luaH_newkey(struct lua_State* L, struct Table* t, const TValue* key) {
             setnilvalue(getval(main_node));
         }
         else {
+			if (main_node->key.nk.next != 0) {
+				Node* next = main_node + main_node->key.nk.next;
+				lastfree->key.nk.next = next - lastfree;
+			}
             main_node->key.nk.next = lastfree - main_node;
             main_node = lastfree;
         }
