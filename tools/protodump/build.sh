@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd lua-src
-make
+make linux
 mv lua ../
 mv luac ../
 cd ../
