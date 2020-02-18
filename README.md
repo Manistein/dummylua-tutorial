@@ -9,7 +9,7 @@
 * Part2：[Garbage Collection基础架构](https://manistein.github.io/blog/post/program/build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part2/)
 * Part3：[String设计与实现](https://manistein.github.io/blog/post/program/build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part3/)
 * Part4：[Table设计与实现](https://manistein.github.io/blog/post/program/build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part4/)
-* Part5：[构建Lua解释器Part5：Lua源码的编译与运行基础--词法分析器、语法分析器和虚拟机的交互与运行基础](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part5/)
+* Part5：[构建Lua解释器Part5：脚本运行基础架构的设计与实现](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part5/)
 * Part6：构建完整的语法分析器
 * Part7：require不同的模块
 * Part8：元表
