@@ -9,15 +9,15 @@
 * Part2：[Garbage Collection基础架构](https://manistein.github.io/blog/post/program/build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part2/)
 * Part3：[String设计与实现](https://manistein.github.io/blog/post/program/build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part3/)
 * Part4：[Table设计与实现](https://manistein.github.io/blog/post/program/build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part4/)
-* Part5：lexer和parser简述
-* Part6：实现脚本中的赋值、基本算数运算和位运算
-* Part7：实现脚本中函数的定义与实现
-* Part8：if语句的定义与实现
-* Part9：循环语句的定义与实现
-* Part10：break语句的定义与实现
-* Part11：可变参数
-* Part12：协程
-* Part13：热更新原理探索
+* Part5：[构建Lua解释器Part5：Lua源码的编译与运行基础--词法分析器、语法分析器和虚拟机的交互与运行基础](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part5/)
+* Part6：构建完整的语法分析器
+* Part7：require不同的模块
+* Part8：元表
+* Part9：Userdata
+* Part10：Upvalue探索
+* Part11：协程的设计与实现
+* Part12：热更新原理
+
 
 ## 编译与运行
 
