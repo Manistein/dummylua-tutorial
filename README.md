@@ -5,19 +5,21 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系列内容，将在我的博客上展示，欢迎大家关注我的[blog](http://manistein.club/)。
 
 ## 系列内容([地址](https://manistein.github.io/blog/tags/let-us-build-a-lua-interpreter/))
-* Part1：[虚拟机的基础--Lua基本数据结构、栈和基于栈的C函数调用的设计与实现](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part1/)
-* Part2：[Garbage Collection基础架构](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part2/)
-* Part3：[String设计与实现](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part3/)
-* Part4：[Table设计与实现](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part4/)
+* Part1：[虚拟机的基础--Lua基本数据结构、栈和基于栈的C函数调用的设计与实现](https://manistein.github.io/blog/post/program/build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part1/)
+* Part2：[Garbage Collection基础架构](https://manistein.github.io/blog/post/program/build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part2/)
+* Part3：[String设计与实现](https://manistein.github.io/blog/post/program/build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part3/)
+* Part4：[Table设计与实现](https://manistein.github.io/blog/post/program/build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part4/)
 * Part5：[脚本运行基础架构的设计与实现](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part5/)
-* Part6：构建完整的语法分析器
-* Part7：require不同的模块
-* Part8：元表
-* Part9：Userdata
-* Part10：Upvalue探索
-* Part11：协程的设计与实现
-* Part12：热更新原理
-
+* Part6：[构建Lua解释器Part6：词法分析器设计与实现](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part6/)
+* Part7：构建完整的语法分析器（上）
+* Part8：构建完整的语法分析器（下）
+* Part9：require不同的模块
+* Part10：元表
+* Part11：Userdata
+* Part12：Upvalue探索
+* Part13：协程的设计与实现
+* Part14：热更新原理
+* Part15：尾声
 
 ## 编译与运行
 
