@@ -5,5 +5,5 @@ void p6_test_main() {
 	struct lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 
-	luaL_loadfile(L, "../dummylua/scripts/part06_test.lua");
+	luaL_loadfile(L, "./scripts/part06_test.lua");
 }
