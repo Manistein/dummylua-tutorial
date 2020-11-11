@@ -12,7 +12,7 @@
 * Part5：[脚本运行基础架构的设计与实现](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part5/)
 * Part6：[构建Lua解释器Part6：词法分析器设计与实现](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part6/)
 * Part7：[构建完整的语法分析器（上）](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part7/)
-* Part8：构建完整的语法分析器（下）
+* Part8：[构建完整的语法分析器（下）](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part8/)
 * Part9：require不同的模块
 * Part10：元表
 * Part11：Userdata
