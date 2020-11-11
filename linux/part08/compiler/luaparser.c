@@ -443,9 +443,10 @@ static void funcargs(FuncState* fs, expdesc* e) {
 	luaX_next(fs->ls->L, fs->ls);
 
 	expdesc args;
+	init_exp(&args, VVOID, 0);
 	int narg = 0;
 	if (fs->ls->t.token == ')') {
-		init_exp(&args, VVOID, 0);
+		// init_exp(&args, VVOID, 0);
 	}
 	else {
 		narg = explist(fs, &args);
@@ -561,6 +562,7 @@ static void assignment(FuncState* fs, LH_assign* v, int nvars) {
 	check_condition(fs->ls, vkisvar(var), "not var");
 
 	LH_assign lh;
+	init_exp(&lh.v, VVOID, 0);
 	lh.prev = v;
 
 	expdesc e;
@@ -663,6 +665,7 @@ static void ifstat(struct lua_State* L, LexState* ls, FuncState* fs) {
 	luaX_next(L, ls); // skip if
 
 	expdesc e;
+	init_exp(&e, VVOID, 0);
 	cond(L, ls, fs, &e);  // cond part
 	lua_assert(e.f != NO_JUMP);
 	int condjmp = e.f;
@@ -742,6 +745,7 @@ static void localstat(struct lua_State* L, LexState* ls, FuncState* fs) {
 		luaX_next(L, ls);
 
 		expdesc e;
+		init_exp(&e, VVOID, 0);
 		int nexps = explist(fs, &e);
 
 		adjust_assign(fs, nvars, nexps, &e);
@@ -760,6 +764,7 @@ static void whilestat(struct lua_State* L, LexState* ls, FuncState* fs) {
 	int whileinit = fs->pc;
 
 	expdesc e;
+	init_exp(&e, VVOID, 0);
 	cond(L, ls, fs, &e);
 	int condjmp = e.f;
 	e.f = NO_JUMP;
