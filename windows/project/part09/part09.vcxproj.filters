@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="clib\luaaux.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\luabase.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\luadebug.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\luainit.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\luamem.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\luaobject.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\luastate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\luastring.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\luatable.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\luatm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\luacode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\lualexer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\luaparser.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\luazio.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\p1_test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\p2_test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\p3_test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\p4_test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\p5_test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\p6_test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\p7_test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\p8_test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\p9_test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vm\luado.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vm\luafunc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vm\luagc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vm\luaopcodes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vm\luavm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="clib\luaaux.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\lua.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\luabase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\luadebug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\luamem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\luaobject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\luastate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\luastring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\luatable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\luatm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\luacode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\lualexer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\luaparser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\luazio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test\p1_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test\p2_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test\p3_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test\p4_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test\p5_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test\p6_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test\p7_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test\p8_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test\p9_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vm\luado.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vm\luafunc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vm\luagc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vm\luaopcodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vm\luavm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile" />
+  </ItemGroup>
+</Project>
