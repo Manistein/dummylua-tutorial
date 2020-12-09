@@ -147,6 +147,8 @@ static void singlevar(FuncState* fs, expdesc* e, TString* n) {
 	singlevaraux(fs, e, n);
 	if (e->k == VVOID) { // variable is in global
 		expdesc k;
+		init_exp(&k, VVOID, 0);
+
 		singlevaraux(fs, e, fs->ls->env);
 		lua_assert(e->k == VUPVAL);
 		codestring(fs, n, &k);
@@ -493,6 +495,7 @@ static void fieldsel(struct lua_State* L, LexState* ls, FuncState* fs, expdesc* 
 	check(L, ls, TK_NAME);
 
 	expdesc k;
+	init_exp(&k, VVOID, 0);
 	codestring(fs, ls->t.seminfo.s, &k);
 
 	luaK_indexed(fs, e, &k);
@@ -522,6 +525,8 @@ static void suffixedexp(struct lua_State* L, LexState* ls, FuncState* fs, expdes
 		} break;
 		case ':': {
 			expdesc key;
+			init_exp(&key, VVOID, 0);
+
 			luaX_next(L, ls);
 			checkname(L, ls, &key);
 			luaK_self(fs, e, &key);
@@ -530,6 +535,8 @@ static void suffixedexp(struct lua_State* L, LexState* ls, FuncState* fs, expdes
 		case '[': {
 			luaK_exp2anyregup(fs, e);
 			expdesc key;
+			init_exp(&key, VVOID, 0);
+
 			yindex(L, fs, &key);
 			luaK_indexed(fs, e, &key);
 		} break;
@@ -1002,6 +1009,8 @@ static void funcstat(struct lua_State* L, LexState* ls, FuncState* fs) {
 
 			luaK_exp2anyregup(ls->fs, &e);
 			expdesc k;
+			init_exp(&k, VVOID, 0);
+
 			codestring(ls->fs, ls->t.seminfo.s, &k);
 			luaK_indexed(ls->fs, &e, &k);
 			luaX_next(L, ls);
