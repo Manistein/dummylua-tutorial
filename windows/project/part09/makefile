@@ -6,7 +6,7 @@ CLIB = ./clib
 TEST = ./test
 
 CLIB_SRC = luaaux.c
-COMMON_SRC = luabase.c luainit.c luamem.c luaobject.c luastate.c luastring.c luatable.c
+COMMON_SRC = luabase.c luainit.c luamem.c luaobject.c luastate.c luastring.c luatable.c luatm.c
 COMPILER_SRC = luacode.c lualexer.c luaparser.c luazio.c
 VM_SRC = luado.c luafunc.c luagc.c luaopcodes.c luavm.c
 TEST_SRC = p*_test.c
