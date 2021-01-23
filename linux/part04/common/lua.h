@@ -33,9 +33,9 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include <time.h>
 #include <math.h>
 
-static int POINTER_SIZE = sizeof(void*);
 
-#if POINTER_SIZE  >= 8
+
+#if defined(LLONG_MAX)
 #define LUA_INTEGER long
 #define LUA_NUMBER double
 #else

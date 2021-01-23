@@ -80,7 +80,7 @@ MEMERRMSG	common/luastring.c	28;"	d	file:
 MINSTRTABLESIZE	common/luastring.c	24;"	d	file:
 OBJECTS	makefile	/^OBJECTS = main.o luaaux.o luastate.o luaobject.o luamem.o luado.o luagc.o luastring.o p1_test.o p2_test.o p3_test.o$/;"	m
 OUTPUT	makefile	/^OUTPUT = .\/bin$/;"	m
-POINTER_SIZE	common/lua.h	/^static int POINTER_SIZE = sizeof(void*);$/;"	v
+POINTER_SIZE	common/lua.h	/^$/;"	v
 Pfunc	vm/luado.h	/^typedef int (*Pfunc)(struct lua_State* L, void* ud);$/;"	t
 STEPMULADJ	common/luastate.h	29;"	d
 STRCACHE_M	common/luastate.h	35;"	d
