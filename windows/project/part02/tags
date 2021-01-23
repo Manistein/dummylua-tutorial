@@ -76,7 +76,7 @@ MAX_LMEM	common/lua.h	83;"	d
 MAX_LUMEM	common/lua.h	82;"	d
 OBJECTS	makefile	/^OBJECTS = main.o luaaux.o luastate.o luaobject.o luamem.o luado.o luagc.o  test.o $/;"	m
 OUTPUT	makefile	/^OUTPUT = .\/bin$/;"	m
-POINTER_SIZE	common/lua.h	/^static int POINTER_SIZE = sizeof(void*);$/;"	v
+POINTER_SIZE	common/lua.h	/^$/;"	v
 Pfunc	vm/luado.h	/^typedef int (*Pfunc)(struct lua_State* L, void* ud);$/;"	t
 STEPMULADJ	common/luastate.h	29;"	d
 StkId	common/luastate.h	/^typedef TValue* StkId;$/;"	t
