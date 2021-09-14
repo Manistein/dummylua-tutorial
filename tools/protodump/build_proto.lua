@@ -687,7 +687,7 @@ end
 -----------------------------------------------------------------------------------
 
 local function get_pure_code()
-    local file_handle = io.open(file_name, "r");
+    local file_handle = io.popen("xxd -p " .. file_name, "r");
     
     local code_str = ""
     local line = file_handle:read("l")
