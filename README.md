@@ -16,7 +16,7 @@
 * Part9：[metatable](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part9/)
 * Part10：[userdata](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part10/)
 * Part11：[upvalue](https://manistein.github.io/blog/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part11/)
-* Part12：weektable
+* Part12：[weektable](http://manistein.club/post/program/let-us-build-a-lua-interpreter/%E6%9E%84%E5%BB%BAlua%E8%A7%A3%E9%87%8A%E5%99%A8part12/)
 * Part13：require机制
 * Part14：热更新原理
 * Part15：再谈GC
