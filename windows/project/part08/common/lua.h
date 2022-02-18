@@ -23,6 +23,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 
 #include <stdarg.h>
 #include <setjmp.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -34,14 +35,16 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #include <math.h>
 #include <stdint.h>
 
-#if defined(LLONG_MAX) 
-#define LUA_INTEGER long long
+#if SIZE_MAX != 0xffffffffui32
+#define LUA_INTEGER int64_t
+#define LUA_UNSIGNED uint64_t
 #define LUA_NUMBER double
 
 #define LUA_INTEGER_FORMAT "%lld"
 #define LUA_NUMBER_FORMAT "%.14g"
 #else
-#define LUA_INTEGER int 
+#define LUA_INTEGER int32_t
+#define LUA_UNSIGNED uint32_t
 #define LUA_NUMBER float 
 
 #define LUA_INTEGER_FORMAT "%d"
@@ -50,7 +53,6 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 
 #define LUA_ENV "_ENV"
 #define LUA_LOADED "_LOADED"
-#define LUA_UNSIGNED unsigned LUA_INTEGER 
 #define lua_assert(c) ((void)0)
 #define check_exp(c, e) (lua_assert(c), e)
 

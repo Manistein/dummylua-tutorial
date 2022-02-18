@@ -23,6 +23,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 
 #include <stdarg.h>
 #include <setjmp.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -34,11 +35,11 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 
 
 
-#if defined(LLONG_MAX)
-#define LUA_INTEGER long
+#if SIZE_MAX != 0xffffffffui32
+#define LUA_INTEGER int64_t
 #define LUA_NUMBER double
 #else
-#define LUA_INTEGER int 
+#define LUA_INTEGER int32_t 
 #define LUA_NUMBER float 
 #endif 
 
