@@ -1,5 +1,5 @@
 ## 注意
-本系列博客不再更新，欢迎大家关注我的新书《Lua解释器构建：从虚拟机到编译器》，随书源码地址点击[这里](https://github.com/Manistein/let-us-build-a-lua-interpreter)
+本系列博客不再更新，欢迎大家关注我的新书《Lua解释器构建：从虚拟机到编译器》，随书源码地址点击[这里](https://github.com/Manistein/let-us-build-a-lua-interpreter)，也欢迎大家到[官方旗舰店](https://item.m.jd.com/product/13807126.html?gx=RnExlzJaOzKPydRP--twWzz4fQ1sgoXIajtG&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=Wxfriends)购买。
 
 ## 项目简介
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lua是一门精妙简洁，而功能强大的语言，学习和掌握它的核心机制有着重要的意义。这是一个仿制lua解释器的项目(参照的版本是Lua5.3)，我希望通过逐步实现lua解释器的各个部分，更加深刻地掌握lua的基本结构和运作原理。本项目将分为多个部分完成，并为每一个部分附上一篇博文为该部分的设计和实现进行解析。开发这个项目的目的，并不是做一个能用于生产环境的lua解释器，而是尝试追寻前辈的步伐，尽最大可能理解其设计lua语言的思路，理解其中的关键细节。这是一个探索原理的旅程，因此效率并不是本项目要考虑的关键因素。这里我遵循的是"FIRST  make  it  run, THEN make it run fast"的原则，先让它跑起来。  
