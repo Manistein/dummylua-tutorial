@@ -52,3 +52,6 @@ cd bin/
 * Linux（Ubuntu）
 * Windows
 * Mac
+
+## Star History
+[![Star History Chart](https://api.star-history.com/svg?repos=Manistein/dummylua-tutorial&type=Date)](https://star-history.com/#Manistein/dummylua-tutorial&Date)
